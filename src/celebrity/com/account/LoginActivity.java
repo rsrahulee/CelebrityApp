@@ -2,6 +2,7 @@ package celebrity.com.account;
 
 import android.accounts.AccountAuthenticatorActivity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,9 +42,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 		btnFacebookLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Intent intent= new
-				// Intent(LoginActivity.this,MainScreen.class);
-				// startActivity(intent);
+//				 Intent intent= new
+//				 Intent(LoginActivity.this,MainScreen.class);
+//				 startActivity(intent);
 				if (appStatus.isOnline()) {
 					Log.e("LoginActivity", "Facebook Clicked ");
 					Intent intent_ShareFB = new Intent(LoginActivity.this,

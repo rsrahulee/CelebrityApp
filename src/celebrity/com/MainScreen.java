@@ -31,6 +31,8 @@ public class MainScreen extends FragmentActivity {
 		instanceState = savedInstanceState;
 
 		setupTabsScreen();
+		
+//		Parser parser = new Parser();
 	}
 
 	private void setupTabsScreen() {
@@ -115,6 +117,7 @@ public class MainScreen extends FragmentActivity {
 
 		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
 			tabSpec.setContent(new DummyTabFactory(mActivity));
+			Log.v("addTab-----------", "addTab");
 			String tag = tabSpec.getTag();
 
 			TabInfo info = new TabInfo(tag, clss, args);
@@ -146,11 +149,12 @@ public class MainScreen extends FragmentActivity {
 		private void setClickHandler(String tag) {
 			final String finalTag = tag;
 			final Integer finalTabIndex = mTabs.size() - 1;
-
+			Log.i("---------finalTabIndex", ""+finalTabIndex);
 			mTabHost.getTabWidget().getChildAt((mTabs.size() - 1))
 					.setOnClickListener((new OnClickListener() {
 						@Override
 						public void onClick(View v) {
+
 							Log.i("MainScreen", "inside Tab onClick");
 							if (mTabHost.getCurrentTabTag().equals(finalTag)) {
 								Integer altTabIndex;
@@ -176,7 +180,7 @@ public class MainScreen extends FragmentActivity {
 
 		@Override
 		public void onTabChanged(String tabId) {
-			Log.v("CHECKINFORGOD", "All up in my tabchange");
+			Log.v("onTabChanged---------", "onTabChanged");
 			TabInfo newTab = mTabs.get(tabId);
 			// if (mLastTab != newTab)
 			{
@@ -216,85 +220,5 @@ public class MainScreen extends FragmentActivity {
 						.executePendingTransactions();
 			}
 		}
-
 	}
-
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			int iFragCnt = this.getSupportFragmentManager()
-//					.getBackStackEntryCount();
-//
-//			if (iFragCnt > 0) {
-//				FragmentManager.BackStackEntry frg_last = this
-//						.getSupportFragmentManager().getBackStackEntryAt(
-//								iFragCnt - 1);
-//				Fragment lastFragment = this.getSupportFragmentManager()
-//						.findFragmentByTag(frg_last.getName());
-//				this.getSupportFragmentManager().popBackStackImmediate();
-//				iFragCnt = this.getSupportFragmentManager()
-//						.getBackStackEntryCount();
-//
-//				if (iFragCnt == 0) {
-//					this.mTabManager.onTabChanged(this.mTabHost
-//							.getCurrentTabTag());
-//				} else {
-//					FragmentManager.BackStackEntry frg = this
-//							.getSupportFragmentManager().getBackStackEntryAt(
-//									iFragCnt - 1);
-//					Fragment currFrag = this.getSupportFragmentManager()
-//							.findFragmentByTag(frg.getName());
-//					FragmentTransaction ft = getSupportFragmentManager()
-//							.beginTransaction();
-//					this.attachFragment(currFrag);
-//					ft.detach(lastFragment);
-//					ft.commit();
-//				}
-//			} else {
-////				ShowMessageBox();
-//				Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-//				startActivity(intent);
-//				finish();
-//			}
-//
-//			return true;
-//		}
-//
-//		return super.onKeyDown(keyCode, event);
-//	}
-
-//	public void ShowMessageBox() {
-//		AlertDialog exitAlert = new AlertDialog.Builder(this).create();
-//		exitAlert.setTitle("Exit Application");
-//		exitAlert.setMessage("Are you sure you want to leave Celebrity App?");
-//
-//		exitAlert.setButton("Yes", new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//				finish();
-//			}
-//		});
-//		exitAlert.setButton2("No", new DialogInterface.OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//			}
-//		});
-//		exitAlert.show();
-//	}
-	
-//	public void attachFragment(Fragment fragment) {
-//		FragmentTransaction ft = this.getSupportFragmentManager()
-//				.beginTransaction();
-//
-//		if (mTabManager.mLastTab.fragment != null) {
-//			Fragment oldFragment = mTabManager.mLastTab.fragment;
-//			ft.detach(oldFragment);
-//		}
-//
-//		ft.attach(fragment);
-//		mTabManager.mLastTab.fragment = fragment;
-//		ft.commit();
-//	}
 }

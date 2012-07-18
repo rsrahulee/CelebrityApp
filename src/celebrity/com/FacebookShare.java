@@ -23,7 +23,7 @@ import celebrity.com.facebook.Util;
 
 public class FacebookShare extends Activity {
 
-	Facebook facebook = new Facebook("337405099674426");
+	Facebook facebook = new Facebook("358310527573301");// 337405099674426
 	public ProgressDialog mProgressDialog;
 	String access_token;
 
@@ -34,8 +34,7 @@ public class FacebookShare extends Activity {
 		
 		appStatus = AppStatus.getInstance(this);
 
-		access_token = appStatus
-				.getSharedStringValue(appStatus.FACEBOOK_TOKEN);
+		access_token = appStatus.getSharedStringValue(appStatus.FACEBOOK_TOKEN);
 
 		if (access_token != null) {
 			facebook.setAccessToken(access_token);
@@ -43,8 +42,8 @@ public class FacebookShare extends Activity {
 
 		if (!facebook.isSessionValid()) {
 
-			facebook.authorize(this, new String[] { "publish_stream",
-					"read_stream", "offline_access" }, new DialogListener() {
+			facebook.authorize(this, new String[] {"publish_stream",
+					"read_stream", "offline_access" ,"user_photos","email"}, new DialogListener() {
 				@Override
 				public void onComplete(Bundle values) {
 					appStatus.saveSharedStringValue(appStatus.FACEBOOK_TOKEN,
