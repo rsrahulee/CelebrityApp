@@ -48,6 +48,9 @@ public class FacebookShare extends Activity {
 				public void onComplete(Bundle values) {
 					appStatus.saveSharedStringValue(appStatus.FACEBOOK_TOKEN,
 							facebook.getAccessToken());
+					
+//					appStatus.saveSharedBoolValue(
+//							appStatus.FACEBOOK_ON, true);
 
 					getFBId();
 					Intent intent = new Intent(FacebookShare.this,MainScreen.class);					
@@ -77,6 +80,7 @@ public class FacebookShare extends Activity {
 				}
 			});
 		} else {
+//			appStatus.saveSharedBoolValue(appStatus.FACEBOOK_ON, true);
 			getFBId();
 			Intent intent = new Intent(FacebookShare.this,MainScreen.class);
 			startActivity(intent);

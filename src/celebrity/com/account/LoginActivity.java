@@ -2,7 +2,6 @@ package celebrity.com.account;
 
 import android.accounts.AccountAuthenticatorActivity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;

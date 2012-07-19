@@ -77,7 +77,6 @@ public final class R {
         public static final int linearLayout1=0x7f07000a;
         public static final int linearLayout2=0x7f07000b;
         public static final int linearShare=0x7f07000e;
-        public static final int listView1=0x7f070019;
         public static final int progressBar1=0x7f070013;
         public static final int relativeLayoutshareItem=0x7f070010;
         public static final int scrollbarShareFrg=0x7f070003;
@@ -90,9 +89,6 @@ public final class R {
         public static final int txtCelebName=0x7f070002;
         public static final int widget34=0x7f070000;
         public static final int widget63=0x7f070015;
-        public static final int widget64=0x7f070016;
-        public static final int widget65=0x7f070018;
-        public static final int widget66=0x7f070017;
     }
     public static final class layout {
         public static final int about_fragment=0x7f030000;

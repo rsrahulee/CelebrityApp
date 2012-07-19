@@ -2,10 +2,14 @@ package celebrity.com;
 
 import java.util.HashMap;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -22,17 +26,24 @@ public class MainScreen extends FragmentActivity {
 	public static AppStatus appStatus;
 	public TabHost mTabHost;
 	public TabManager mTabManager;
+//	private ProgressDialog loading;
+//	Handler mhandler;
+	ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
+//		mhandler = new Handler();
+//		loading = new ProgressDialog(this);
+//		loading.setMessage("Please wait Loading...");
+//		loading.setCancelable(true);
+
 		instanceState = savedInstanceState;
+		appStatus = AppStatus.getInstance(this);
 
 		setupTabsScreen();
-		
-//		Parser parser = new Parser();
 	}
 
 	private void setupTabsScreen() {
@@ -149,7 +160,7 @@ public class MainScreen extends FragmentActivity {
 		private void setClickHandler(String tag) {
 			final String finalTag = tag;
 			final Integer finalTabIndex = mTabs.size() - 1;
-			Log.i("---------finalTabIndex", ""+finalTabIndex);
+			Log.i("---------finalTabIndex", "" + finalTabIndex);
 			mTabHost.getTabWidget().getChildAt((mTabs.size() - 1))
 					.setOnClickListener((new OnClickListener() {
 						@Override
@@ -220,5 +231,41 @@ public class MainScreen extends FragmentActivity {
 						.executePendingTransactions();
 			}
 		}
+	}
+
+//	void showLoading(final boolean show, final String title, final String msg) {
+//		mhandler.post(new Runnable() {
+//			@Override
+//			public void run() {
+//				if (show) {
+//					if (loading != null) {
+//						loading.setTitle(title);
+//						loading.setMessage(msg);
+//						loading.show();
+//					}
+//				} else {
+//					loading.cancel();
+//					loading.dismiss();
+//				}
+//			}
+//		});
+//	}
+	
+	@Override
+	public Dialog onCreateDialog(int id, Bundle args) {
+		final ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setTitle("Please Wait...");
+		dialog.setMessage("loading...");
+		dialog.setIndeterminate(true);
+		dialog.setCancelable(true);
+		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				Log.i("CHECKINFORGOOD", "user cancelling authentication");
+
+			}
+		});
+		mProgressDialog = dialog;
+		return dialog;
 	}
 }

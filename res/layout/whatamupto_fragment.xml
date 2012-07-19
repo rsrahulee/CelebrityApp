@@ -4,45 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/widget64"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" 
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp">
 
-        <Button
-            android:id="@+id/widget66"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/facebook" android:width="100dp"/>
-
-        <Button
-            android:id="@+id/widget65"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/widget66"
-            android:text="@string/twitter" android:width="100dp"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.04"
-        android:orientation="vertical" >
-
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-
-    </LinearLayout>
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FF0000" android:background="@color/black"/>
 
 </LinearLayout>
