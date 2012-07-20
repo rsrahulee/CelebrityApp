@@ -15,8 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import celebrity.com.adapter.FeedTweetAdapter;
 import celebrity.com.parser.ParseResult;
 import celebrity.com.parser.RestClient;
 import celebrity.com.setting.ShareListAdapter;
@@ -24,18 +24,17 @@ import celebrity.com.setting.ShareListAdapter;
 public class WhatIamUptoFragment extends ListFragment {
 
 	WhatIamUptoFragment mBusinessListFragment;
-	MainScreen context;
+	MainFragmentActivity context;
 	public static ArrayList<String> feedList;
 	public static ArrayList<String> tweetList;
-	public static ArrayList<String> feed_tweet;
+	public static ArrayList<String> feed_tweet = new ArrayList<String>();
 	ShareListAdapter sharelist;
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.context = (MainScreen) this.getActivity();
+		this.context = (MainFragmentActivity) this.getActivity();
 		Log.v("celeb", "In onAttach of what I am AUpto Fragment");
 
-		feed_tweet = new ArrayList<String>();
 		context.showDialog(0);
 	}
 
@@ -44,39 +43,47 @@ public class WhatIamUptoFragment extends ListFragment {
 
 		super.onResume();
 
-//		feed_tweet = new ArrayList<String>();
+		if (feedList != null && tweetList != null) {
+			
+			setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 
-		if (!(feed_tweet.isEmpty())) {//(!feedList.isEmpty()) || (!tweetList.isEmpty())
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-					android.R.layout.simple_list_item_1, feed_tweet);
-			setListAdapter(adapter);
 		} else {
-			String fb_is_on = MainScreen.appStatus.get("FB_ON");
-			String tw_is_on = MainScreen.appStatus.get("TW_ON");
+			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
+			String tw_is_on = MainFragmentActivity.appStatus.get("TW_ON");
 
-			if (!fb_is_on.equals("")) {
-				feedList = getFeedsUrls();
-				if(!(feedList.isEmpty())){
-					feed_tweet.addAll(feedList);
+			if (!(fb_is_on.equals(""))) {
+				if (feedList==null) {
+					feedList = getFeedsUrls();
+					if (feedList!=null) {
+						feed_tweet.addAll(feedList);
+					}else{
+						Toast.makeText(context, "Problem fetching feeds from Facebook", Toast.LENGTH_SHORT).show();
+					}
 				}
 
 			} else {
 				Toast.makeText(context, "Facebook is OFF,make it ON",
 						Toast.LENGTH_SHORT).show();
 			}
-			if (!tw_is_on.equals("")) {
-				tweetList = getTweetsUrls();
-				if(!(tweetList.isEmpty())){
-					feed_tweet.addAll(tweetList);
-				}				
+			if (!(tw_is_on.equals(""))) {
+				if (tweetList==null) {
+					tweetList = getTweetsUrls();
+					if (tweetList!=null) {
+						feed_tweet.addAll(tweetList);
+					}else{
+						Toast.makeText(context, "Problem fetching Tweets from Twitter", Toast.LENGTH_SHORT).show();
+					}
+				}
 			} else {
 				Toast.makeText(context, "Twitter is OFF,make it ON",
 						Toast.LENGTH_SHORT).show();
 			}
 
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-					android.R.layout.simple_list_item_1, feed_tweet);
-			setListAdapter(adapter);
+			// ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+			// android.R.layout.simple_list_item_1, feed_tweet);
+			// setListAdapter(adapter);
+
+			setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 		}
 		context.removeDialog(0);
 	}
@@ -84,7 +91,7 @@ public class WhatIamUptoFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v;
+		View v = null;
 
 		v = inflater.inflate(R.layout.whatamupto_fragment, container, false);
 

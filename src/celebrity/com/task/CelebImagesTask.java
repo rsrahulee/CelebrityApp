@@ -11,7 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.os.AsyncTask;
 import android.util.Log;
 import celebrity.com.ImagesFragment;
-import celebrity.com.MainScreen;
+import celebrity.com.MainFragmentActivity;
 import celebrity.com.adapter.ImageAdapter;
 import celebrity.com.parser.ParseResult;
 import celebrity.com.parser.RestClient;
@@ -21,7 +21,7 @@ public class CelebImagesTask extends AsyncTask<Double, Integer, ArrayList<String
 	ArrayList<String> celebImgLinks;
 	ImagesFragment imageFragmentContext;
 
-	public CelebImagesTask(MainScreen context) {
+	public CelebImagesTask(MainFragmentActivity context) {
 		
 	}
 

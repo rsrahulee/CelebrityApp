@@ -51,7 +51,7 @@ public class ParseResult {
 
 			for (int i = 0; i < mJsonArray.length(); i++) {
 
-				imgLinks.add(mJsonArray.getJSONObject(i).getString("name"));
+				imgLinks.add("FB "+mJsonArray.getJSONObject(i).getString("name"));
 			}
 
 		} catch (Exception e) {

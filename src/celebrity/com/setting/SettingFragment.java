@@ -10,17 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
-import celebrity.com.MainScreen;
+import celebrity.com.MainFragmentActivity;
 import celebrity.com.R;
 
 public class SettingFragment extends ListFragment {
 
-	SettingFragment mBusinessListFragment;
-	MainScreen context;
+//	SettingFragment mBusinessListFragment;
+	MainFragmentActivity context;
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.context = (MainScreen) this.getActivity();
+		this.context = (MainFragmentActivity) this.getActivity();
 		Log.v("celeb", "In onAttach of SettingFragment");
 	}
 

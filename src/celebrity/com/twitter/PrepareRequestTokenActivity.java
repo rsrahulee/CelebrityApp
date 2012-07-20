@@ -15,7 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import celebrity.com.MainScreen;
+import celebrity.com.MainFragmentActivity;
 import celebrity.com.account.LoginActivity;
 
 /**
@@ -103,7 +103,7 @@ public class PrepareRequestTokenActivity extends Activity {
 				String secret = prefs.getString(OAuth.OAUTH_TOKEN_SECRET, "");
 				
 				consumer.setTokenWithSecret(token, secret);
-				context.startActivity(new Intent(context,MainScreen.class));
+				context.startActivity(new Intent(context,MainFragmentActivity.class));
 
 				executeAfterAccessTokenRetrieval();
 				

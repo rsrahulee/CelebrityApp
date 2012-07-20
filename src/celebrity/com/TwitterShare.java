@@ -44,7 +44,7 @@ public class TwitterShare extends Activity {
 		if (TwitterUtils.isAuthenticated(prefs)) {
 			Log.i("---------------", "TwitterUtils.isAuthenticated(prefs)");
 			// sendTweet();
-			Intent intent = new Intent(getApplicationContext(),MainScreen.class);
+			Intent intent = new Intent(getApplicationContext(),MainFragmentActivity.class);
 			startActivity(intent);
 		} else {
 			Intent i = new Intent(getApplicationContext(),

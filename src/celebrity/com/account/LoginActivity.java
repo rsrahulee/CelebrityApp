@@ -14,7 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import celebrity.com.AppStatus;
 import celebrity.com.FacebookShare;
-import celebrity.com.MainScreen;
+import celebrity.com.MainFragmentActivity;
 import celebrity.com.NoConnectivityScreen;
 import celebrity.com.R;
 import celebrity.com.twitter.PrepareRequestTokenActivity;
@@ -72,7 +72,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 								"TwitterUtils.isAuthenticated(prefs)");
 						// sendTweet();
 						Intent intent = new Intent(getApplicationContext(),
-								MainScreen.class);
+								MainFragmentActivity.class);
 						startActivity(intent);
 					} else {
 						Intent i = new Intent(getApplicationContext(),

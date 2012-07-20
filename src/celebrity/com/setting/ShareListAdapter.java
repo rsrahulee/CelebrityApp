@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -19,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import celebrity.com.FacebookShare;
-import celebrity.com.MainScreen;
+import celebrity.com.MainFragmentActivity;
 import celebrity.com.NoConnectivityScreen;
 import celebrity.com.R;
-import celebrity.com.account.LoginActivity;
 import celebrity.com.twitter.PrepareRequestTokenActivity;
 import celebrity.com.twitter.TwitterUtils;
 
@@ -30,7 +28,7 @@ public class ShareListAdapter extends BaseAdapter {
 
 	Context context;
 	ArrayList<String> shareItems;
-	MainScreen mContext;
+	MainFragmentActivity mContext;
 
 	static int FACEBOOK = 0;
 	static int TWITTER = 1;
@@ -42,7 +40,7 @@ public class ShareListAdapter extends BaseAdapter {
 	}
 
 	public ShareListAdapter(Context context, ArrayList<String> shareItems,
-			MainScreen mainContext) {
+			MainFragmentActivity mainContext) {
 		this.context = context;
 		this.shareItems = shareItems;
 		this.mContext = mainContext;
@@ -85,14 +83,14 @@ public class ShareListAdapter extends BaseAdapter {
 
 		if (position == 0) {
 			// String facebook_on = MainScreen.appStatus.getFBValue("FB_ON");
-			String facebook_on = MainScreen.appStatus.get("FB_ON");
+			String facebook_on = MainFragmentActivity.appStatus.get("FB_ON");
 			if (facebook_on.equals("") || facebook_on.equals(null)) {
 				tb.setChecked(false);
 			} else {
 				tb.setChecked(true);
 			}
 		} else if (position == 1) {
-			String twitter_on = MainScreen.appStatus.get("TW_ON");
+			String twitter_on = MainFragmentActivity.appStatus.get("TW_ON");
 
 			if (twitter_on.equals("")) {
 				tb.setChecked(false);
@@ -133,9 +131,9 @@ public class ShareListAdapter extends BaseAdapter {
 	// on FacebookStatusChanged store status to preferences
 	public void onFacebookClick(View v) {
 		
-		String access_token = MainScreen.appStatus.getSharedStringValue(MainScreen.appStatus.FACEBOOK_TOKEN);
-		if(access_token.equals("")){
-			if (MainScreen.appStatus.isOnline()) {
+		String access_token = MainFragmentActivity.appStatus.getSharedStringValue(MainFragmentActivity.appStatus.FACEBOOK_TOKEN);
+		if(access_token.equals(null)){
+			if (MainFragmentActivity.appStatus.isOnline()) {
 				Intent intent_ShareFB = new Intent(context, FacebookShare.class);
 				context.startActivity(intent_ShareFB);
 			} else {
@@ -152,7 +150,7 @@ public class ShareListAdapter extends BaseAdapter {
 
 	// on TwitterStatusChanged store status to preferences
 	public void onTwitterClick(View v) {
-		if (MainScreen.appStatus.isOnline()) {
+		if (MainFragmentActivity.appStatus.isOnline()) {
 			SharedPreferences prefs = PreferenceManager
 					.getDefaultSharedPreferences(context);
 			Log.e("onFacebookClick", "Facebook Clicked ");
@@ -186,7 +184,7 @@ public class ShareListAdapter extends BaseAdapter {
 		if (isFacebookOrTwitter == FACEBOOK) {
 			if (bIsChecked) {
 				// tb.setChecked(true);
-				MainScreen.appStatus.save("FB_ON", "FB_ON");
+				MainFragmentActivity.appStatus.save("FB_ON", "FB_ON");
 				bReturnStatus = true;
 
 				// MainScreen.appStatus.clearSharedDataWithKey("FB_ON");
@@ -202,12 +200,12 @@ public class ShareListAdapter extends BaseAdapter {
 				// }
 			} else {
 				// tb.setChecked(false);
-				MainScreen.appStatus.remove("FB_ON");
+				MainFragmentActivity.appStatus.remove("FB_ON");
 			}
 		} else if (isFacebookOrTwitter == TWITTER) {
 			if (bIsChecked) {
 				tb.setChecked(true);
-				MainScreen.appStatus.save("TW_ON", "TW_ON");
+				MainFragmentActivity.appStatus.save("TW_ON", "TW_ON");
 				bReturnStatus = true;
 
 				// MainScreen.appStatus.clearSharedDataWithKey("TW_ON");
@@ -225,7 +223,7 @@ public class ShareListAdapter extends BaseAdapter {
 			} else {
 
 				tb.setChecked(false);
-				MainScreen.appStatus.remove("TW_ON");
+				MainFragmentActivity.appStatus.remove("TW_ON");
 
 				// MainScreen.appStatus.saveSharedBoolValue(
 				// MainScreen.appStatus.TWITTER_ON, bIsChecked);

@@ -9,7 +9,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -28,7 +27,7 @@ import celebrity.com.setting.ShareListAdapter;
 public class ImagesFragment extends Fragment {
 
 	ImagesFragment imagesFragment;
-	MainScreen context;
+	MainFragmentActivity context;
 	GridView girGridView;
 	public static ArrayList<String> imageList;
 	// private ProgressDialog loading;
@@ -39,9 +38,9 @@ public class ImagesFragment extends Fragment {
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.context = (MainScreen) this.getActivity();
+		this.context = (MainFragmentActivity) this.getActivity();
 
-		// context.showDialog(0);
+		 context.showDialog(0);
 
 		// mhandler = new Handler();
 		// loading = new ProgressDialog(context);
@@ -64,7 +63,7 @@ public class ImagesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		context.showDialog(0);
+//		context.showDialog(0);
 
 		Log.v("onCreateView----------------", "onCreateView");
 
@@ -82,13 +81,23 @@ public class ImagesFragment extends Fragment {
 		// });
 		// t.start();
 
-		girGridView = (GridView) v.findViewById(R.id.gridview);
+		girGridView = (GridView) v.findViewById(R.id.gridview);			
+		
+		return v;
+	}
 
+	public void onResume() {
+
+		// context.removeDialog(0);
+		// showLoading(false, "", "");
+		Log.v("onResume----------------", "onResume");
+		super.onResume();
+		
 		if (imageList != null) {
 			girGridView.setAdapter(new ImageAdapter(context, imageList));
 		} else {
-			String fb_is_on = MainScreen.appStatus.get("FB_ON");
-			if (!fb_is_on.equals("")) {
+			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
+			if (!(fb_is_on.equals(""))) {
 				imageList = getImagesUrls();
 				girGridView.setAdapter(new ImageAdapter(context, imageList));
 			} else {
@@ -103,20 +112,11 @@ public class ImagesFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View view,
 							int position, long arg3) {
-						Toast.makeText(context, imageList.get(position),
-								Toast.LENGTH_SHORT).show();
+//						Toast.makeText(context, imageList.get(position),
+//								Toast.LENGTH_SHORT).show();
 					}
 				});
 		context.removeDialog(0);
-		return v;
-	}
-
-	public void onResume() {
-
-		// context.removeDialog(0);
-		// showLoading(false, "", "");
-		Log.v("onResume----------------", "onResume");
-		super.onResume();
 	}
 
 	// public void getImages(ArrayList<String> result) {

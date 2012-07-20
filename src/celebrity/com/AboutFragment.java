@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 public class AboutFragment extends Fragment {
 
 	AboutFragment mBusinessListFragment;
-	MainScreen context;
+	MainFragmentActivity context;
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		this.context = (MainScreen) this.getActivity();
+		this.context = (MainFragmentActivity) this.getActivity();
 		Log.v("celeb", "In onAttach of AboutFragment");
 	}
 

@@ -24,7 +24,7 @@ import celebrity.com.facebook.Util;
 public class FacebookShare extends Activity {
 
 	Facebook facebook = new Facebook("358310527573301");// 337405099674426
-	public ProgressDialog mProgressDialog;
+//	public ProgressDialog mProgressDialog;
 	String access_token;
 
 	private static AppStatus appStatus;
@@ -52,8 +52,8 @@ public class FacebookShare extends Activity {
 //					appStatus.saveSharedBoolValue(
 //							appStatus.FACEBOOK_ON, true);
 
-					getFBId();
-					Intent intent = new Intent(FacebookShare.this,MainScreen.class);					
+//					getFBId();
+					Intent intent = new Intent(FacebookShare.this,MainFragmentActivity.class);					
 					startActivity(intent);
 					finish();
 				}
@@ -81,36 +81,36 @@ public class FacebookShare extends Activity {
 			});
 		} else {
 //			appStatus.saveSharedBoolValue(appStatus.FACEBOOK_ON, true);
-			getFBId();
-			Intent intent = new Intent(FacebookShare.this,MainScreen.class);
+//			getFBId();
+			Intent intent = new Intent(FacebookShare.this,MainFragmentActivity.class);
 			startActivity(intent);
 			finish();
 		}
 	}
 
-	public void getFBId() {
-		Bundle bundle = new Bundle();
-		try {
-			String response = facebook.request("me", bundle);
-			Log.i("friends response", response);
-			JSONObject json = Util.parseJson(response);
-			String facebookID = json.getString("id");
-
-			appStatus.saveSharedStringValue(appStatus.FB_UID, facebookID);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FacebookError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public void getFBId() {
+//		Bundle bundle = new Bundle();
+//		try {
+//			String response = facebook.request("me", bundle);
+//			Log.i("friends response", response);
+//			JSONObject json = Util.parseJson(response);
+//			String facebookID = json.getString("id");
+//
+//			appStatus.saveSharedStringValue(appStatus.FB_UID, facebookID);
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (FacebookError e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,10 +119,10 @@ public class FacebookShare extends Activity {
 		facebook.authorizeCallback(requestCode, resultCode, data);
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+//	@Override
+//	public void onResume() {
+//		super.onResume();
+//	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -147,25 +147,25 @@ public class FacebookShare extends Activity {
 		this.removeDialog(0);
 	}
 
-	@Override
-	protected Dialog onCreateDialog(int id, Bundle args) {
-		final ProgressDialog dialog = new ProgressDialog(this);
-		dialog.setTitle("Please Wait...");
-		dialog.setIndeterminate(true);
-		dialog.setCancelable(true);
-		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				Log.i("CHECKINFORGOOD", "user cancelling authentication");
+//	@Override
+//	protected Dialog onCreateDialog(int id, Bundle args) {
+//		final ProgressDialog dialog = new ProgressDialog(this);
+//		dialog.setTitle("Please Wait...");
+//		dialog.setIndeterminate(true);
+//		dialog.setCancelable(true);
+//		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//			@Override
+//			public void onCancel(DialogInterface dialog) {
+//				Log.i("CHECKINFORGOOD", "user cancelling authentication");
+//
+//			}
+//		});
+//		mProgressDialog = dialog;
+//		return dialog;
+//	}
 
-			}
-		});
-		mProgressDialog = dialog;
-		return dialog;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
+//	@Override
+//	public void onPause() {
+//		super.onPause();
+//	}
 }
