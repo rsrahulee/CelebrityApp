@@ -25,13 +25,11 @@ import android.widget.Toast;
 public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	private static Context context;
 
-	ArrayList<String> imageList;
-
-	// public static ImageAdapter INSTANCE = new ImageAdapter(context);
+	private ArrayList<String> imageList;
 
 	public ImageAdapter(Context context, ArrayList<String> arrayList) {
 		super();
-		this.context = context;
+		ImageAdapter.context = context;
 		this.imageList = arrayList;
 	}
 
@@ -52,18 +50,17 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 		} else {
 			imageView = (ImageView) convertView;
 		}
-//		Bitmap bitmapImage = getImageSD("" + position + ".PNG");
-		
-		Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/"+"" + position + ".PNG");
-		
-		if(bitmapImage!=null){
+
+		Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/" + ""
+				+ position + ".PNG");
+
+		if (bitmapImage != null) {
 			imageView.setImageBitmap(bitmapImage);
-		}else{
+		} else {
 			downloadImage(imageList.get(position), position);
-//			Bitmap bitmapImageSD = getImageSD("" + position + ".PNG");
-			Bitmap bitmapImageSD = BitmapFactory.decodeFile("/sdcard/"+"" + position + ".PNG");
+			Bitmap bitmapImageSD = BitmapFactory.decodeFile("/sdcard/" + ""
+					+ position + ".PNG");
 			imageView.setImageBitmap(bitmapImageSD);
-//			imageView.setImageDrawable(downloadImage(imageList.get(position), position));
 		}
 		return imageView;
 	}
@@ -72,7 +69,6 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 
 		Bitmap bmImg = null;
 		URL myFileUrl = null;
-//		Drawable d = null;
 
 		try {
 
@@ -87,19 +83,11 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 			bmImg = BitmapFactory.decodeStream(is);
 
 			saveImageToSD(bmImg, position);
-
-//			d = Drawable.createFromStream(is, "src");
-//			return d;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		return d;
 	}
-
-	// public void getImages(ArrayList<String> result) {
-	// imageList = result;
-	// }
 
 	@Override
 	public int getCount() {
@@ -115,7 +103,13 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 
 	public void saveImageToSD(Bitmap bitmap, int position) {
 
-		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+		String extStorageDirectory = Environment.getExternalStorageDirectory()
+				.toString();
+		
+		String root = Environment.getExternalStorageDirectory().toString();
+		new File(root + "/mvc/mvc").mkdirs();
+
+		
 		OutputStream outStream = null;
 
 		File file = new File(extStorageDirectory, "" + position + ".PNG");
@@ -135,9 +129,9 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}	
-	
-	public Bitmap getImageSD(String img){
+	}
+
+	public Bitmap getImageSD(String img) {
 		Bitmap bitmap = BitmapFactory.decodeFile(img);
 		return bitmap;
 	}

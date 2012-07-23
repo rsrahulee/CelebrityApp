@@ -1,65 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollbarShareFrg"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/mainbg"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/mainbg"
         android:orientation="vertical" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/johnydepp" />
+
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/celebName"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/purple" />
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/app_name"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black" />
-    </LinearLayout>
+            android:text="@string/sign_in"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/orange"
+            android:textSize="18dp" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/johnydepp" android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/celebName"
-        android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="@color/purple" android:layout_gravity="center" android:layout_marginTop="5dp"/>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/sign_in"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/orange"
-        android:textSize="18dp" />
-
-    <Button
+        <!--
+         <Button
         android:id="@+id/facebookLogin"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:text="@string/facebook" />
+        android:text="@string/facebook" />
+        -->
 
-    <Button
+        <Button
+            android:id="@+id/facebookLogin"
+            style="@style/loginText"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/social_fb" >
+        </Button>
+
+        <!--
+         <Button
         android:id="@+id/twitterLogin"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/twitter" />
+        android:text="@string/twitter" />
+        -->
 
-</LinearLayout>
+        <Button
+            android:id="@+id/twitterLogin"
+            style="@style/loginText"
+            android:background="@drawable/social_tw" >
+        </Button>
+    </LinearLayout>
+
+</ScrollView>

@@ -16,7 +16,6 @@ public class FeedTweetAdapter extends BaseAdapter {
 	private final ArrayList<String> feed_tweets;
 
 	public FeedTweetAdapter(Context context, ArrayList<String> feed_tweets) {
-		// super(context);
 		this.context = context;
 		this.feed_tweets = feed_tweets;
 	}

@@ -14,8 +14,6 @@ import celebrity.com.MainFragmentActivity;
 import celebrity.com.R;
 
 public class SettingFragment extends ListFragment {
-
-//	SettingFragment mBusinessListFragment;
 	MainFragmentActivity context;
 
 	public void onAttach(Activity activity) {

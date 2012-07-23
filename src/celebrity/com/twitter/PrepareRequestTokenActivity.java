@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import celebrity.com.MainFragmentActivity;
-import celebrity.com.account.LoginActivity;
 
 /**
  * Prepares a OAuthConsumer and OAuthProvider 
@@ -120,11 +119,11 @@ public class PrepareRequestTokenActivity extends Activity {
 		private void executeAfterAccessTokenRetrieval() {
 			//String msg = getIntent().getExtras().getString("tweet_msg");
 			try {
-				//TwitterUtils.sendTweet(prefs, msg);
+				TwitterUtils.sendTweet(prefs, "Hi Rahul You tweet successfully");
+//				Toast.makeText(context, "Hi Rahul You tweet successfully", Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				Log.e(TAG, "OAuth - Error sending to Twitter", e);
 			}
 		}
-	}	
-	
+	}		
 }

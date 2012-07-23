@@ -82,7 +82,6 @@ public class ShareListAdapter extends BaseAdapter {
 		mhandler = new Handler();
 
 		if (position == 0) {
-			// String facebook_on = MainScreen.appStatus.getFBValue("FB_ON");
 			String facebook_on = MainFragmentActivity.appStatus.get("FB_ON");
 			if (facebook_on.equals("") || facebook_on.equals(null)) {
 				tb.setChecked(false);
@@ -122,7 +121,6 @@ public class ShareListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// checkAndGotoDelinkIfNeeded(v);
 			}
 		});
 		return v;
@@ -130,9 +128,10 @@ public class ShareListAdapter extends BaseAdapter {
 
 	// on FacebookStatusChanged store status to preferences
 	public void onFacebookClick(View v) {
-		
-		String access_token = MainFragmentActivity.appStatus.getSharedStringValue(MainFragmentActivity.appStatus.FACEBOOK_TOKEN);
-		if(access_token.equals(null)){
+
+		String access_token = MainFragmentActivity.appStatus
+				.getSharedStringValue(MainFragmentActivity.appStatus.FACEBOOK_TOKEN);
+		if (access_token.equals(null)) {
 			if (MainFragmentActivity.appStatus.isOnline()) {
 				Intent intent_ShareFB = new Intent(context, FacebookShare.class);
 				context.startActivity(intent_ShareFB);
@@ -142,10 +141,10 @@ public class ShareListAdapter extends BaseAdapter {
 				context.startActivity(intent);
 				mContext.finish();
 			}
-		}else{
+		} else {
 			Toast.makeText(context, "Already Logged in to Facebook",
 					Toast.LENGTH_SHORT).show();
-		}		
+		}
 	}
 
 	// on TwitterStatusChanged store status to preferences
@@ -160,8 +159,6 @@ public class ShareListAdapter extends BaseAdapter {
 				Log.i("---------------", "TwitterUtils.isAuthenticated(prefs)");
 				Toast.makeText(context, "Already Logged in to Twitter",
 						Toast.LENGTH_SHORT).show();
-				// Intent intent = new Intent(context, MainScreen.class);
-				// context.startActivity(intent);
 			} else {
 
 				Intent i = new Intent(context,
@@ -171,7 +168,6 @@ public class ShareListAdapter extends BaseAdapter {
 			}
 		} else {
 			Log.v("ShareListAdapter", "App is not online!");
-			// ((ToggleButton)v).setChecked(false);
 			Intent intent = new Intent(context, NoConnectivityScreen.class);
 			context.startActivity(intent);
 			mContext.finish();
@@ -183,23 +179,9 @@ public class ShareListAdapter extends BaseAdapter {
 		boolean bReturnStatus = false;
 		if (isFacebookOrTwitter == FACEBOOK) {
 			if (bIsChecked) {
-				// tb.setChecked(true);
 				MainFragmentActivity.appStatus.save("FB_ON", "FB_ON");
 				bReturnStatus = true;
-
-				// MainScreen.appStatus.clearSharedDataWithKey("FB_ON");
-
-				// String access_token = MainScreen.appStatus
-				// .getSharedStringValue(MainScreen.appStatus.FACEBOOK_TOKEN);
-				// if (access_token == null) {
-				// bReturnStatus = true;
-				// } else {
-				// MainScreen.appStatus.saveSharedBoolValue(
-				// MainScreen.appStatus.FACEBOOK_ON, bIsChecked);
-				// // updateSocialPreferences(bIsChecked, "facebook");
-				// }
 			} else {
-				// tb.setChecked(false);
 				MainFragmentActivity.appStatus.remove("FB_ON");
 			}
 		} else if (isFacebookOrTwitter == TWITTER) {
@@ -207,27 +189,10 @@ public class ShareListAdapter extends BaseAdapter {
 				tb.setChecked(true);
 				MainFragmentActivity.appStatus.save("TW_ON", "TW_ON");
 				bReturnStatus = true;
-
-				// MainScreen.appStatus.clearSharedDataWithKey("TW_ON");
-				// String twitter_token = MainScreen.appStatus
-				// .getSharedStringValue(MainScreen.appStatus.TWITTER_TOKEN);
-				// String twitter_secret = MainScreen.appStatus
-				// .getSharedStringValue(MainScreen.appStatus.TWITTER_SECRET);
-				// if ((twitter_token == null) || (twitter_secret == null)) {
-				// bReturnStatus = true;
-				// } else {
-				// MainScreen.appStatus.saveSharedBoolValue(
-				// MainScreen.appStatus.TWITTER_ON, bIsChecked);
-				// // updateSocialPreferences(bIsChecked, "twitter");
-				// }
 			} else {
 
 				tb.setChecked(false);
 				MainFragmentActivity.appStatus.remove("TW_ON");
-
-				// MainScreen.appStatus.saveSharedBoolValue(
-				// MainScreen.appStatus.TWITTER_ON, bIsChecked);
-				// updateSocialPreferences(bIsChecked, "twitter");
 			}
 		}
 		return bReturnStatus;
@@ -235,7 +200,6 @@ public class ShareListAdapter extends BaseAdapter {
 
 	public void onAuthenticationResult(Boolean success) {
 		if (success) {
-			// this.removeDialog(0);
 			message("Social preferences updated!");
 		} else {
 			message("Fail to update social preferences!");
@@ -252,100 +216,4 @@ public class ShareListAdapter extends BaseAdapter {
 			}
 		});
 	}
-
-	// private void updateSocialPreferences(Boolean status,String socialNetwork)
-	// {
-	// String args[]=new String[3];
-	// args[0]=CheckinNativeActivity.mAuthToken;
-	// args[1]=socialNetwork;
-	// args[2]=Boolean.toString(status);
-	//
-	// if(CheckinNativeActivity.appStatus.isOnline()) {
-	// // context.showDialog(0);
-	// new SocialSharingTask(this,SocialSharingTask.UPDATE_PREF).execute(args);
-	// }
-	// else {
-	// Log.v("CHECKINFORGOOD", "App is not online!");
-	// message("App is not online!");
-	// Intent intent= new Intent(context,NoConnectivityScreen.class);
-	// context.startActivity(intent);
-	// mContext.finish();
-	// }
-	// }
-
-	// private void checkAndGotoDelinkIfNeeded(View v){
-	// boolean bGoToDelink=true;
-	//
-	// if(v.getId() == FACEBOOK){
-	// String access_token = CheckinNativeActivity.appStatus.
-	// getSharedStringValue(CheckinNativeActivity.appStatus.FACEBOOK_TOKEN);
-	// if(access_token == null) {
-	// bGoToDelink=false;
-	// }
-	// }else if(v.getId() == TWITTER){
-	// String twitter_token = CheckinNativeActivity.appStatus.
-	// getSharedStringValue(CheckinNativeActivity.appStatus.TWITTER_TOKEN);
-	// String twitter_secret= CheckinNativeActivity.appStatus.
-	// getSharedStringValue(CheckinNativeActivity.appStatus.TWITTER_SECRET);
-	// if((twitter_token == null) || (twitter_secret == null)) {
-	// bGoToDelink=false;
-	// }
-	// }
-	//
-	// if(bGoToDelink){ // go to Delink page
-	// // go to dlink screen
-	// Bundle bundle = new Bundle();
-	// if(v.getId() == FACEBOOK)
-	// bundle.putInt(DelinkShareFragment.STATUS_FLAG, FACEBOOK);
-	// else if(v.getId() == TWITTER)
-	// bundle.putInt(DelinkShareFragment.STATUS_FLAG, TWITTER);
-	//
-	// if (mDelinkShareFragment == null) {
-	// mDelinkShareFragment = (DelinkShareFragment) mContext.addFragment(
-	// R.id.linearLayout2, DelinkShareFragment.class.getName(),
-	// "delink_share_fragment",bundle);
-	// } else {
-	// mContext.attachFragment((Fragment) mDelinkShareFragment);
-	// }
-	// }else{ // go to authenticate FB Or TW
-	// if(CheckinNativeActivity.appStatus.isOnline()) {
-	// if(v.getId() == FACEBOOK) {
-	// onFacebookClick(v);
-	// } else if(v.getId() == TWITTER) {
-	// onTwitterClick(v);
-	// }
-	// }
-	// else {
-	// //message("Check internet connectivity!");
-	// Log.v("ShareListAdapter", "App is not online!");
-	// ((ToggleButton)v).setChecked(false);
-	// Intent intent= new Intent(context,NoConnectivityScreen.class);
-	// context.startActivity(intent);
-	// mContext.finish();
-	// }
-	// }
-	// }
-
-	// public void save(String key,String value){
-	// SharedPreferences prefs = context.getSharedPreferences("Share",
-	// Context.MODE_PRIVATE );
-	// Editor editor = prefs.edit();
-	// editor.putString(key, value);
-	// editor.commit();
-	//
-	// }
-	// public String get(String key){
-	// SharedPreferences prefs = context.getSharedPreferences("Share",
-	// Context.MODE_PRIVATE );
-	// String Str = prefs.getString(key, "");
-	// return Str;
-	// }
-	//
-	// public void remove(String key){
-	// SharedPreferences prefs = context.getSharedPreferences("Share",
-	// Context.MODE_PRIVATE );
-	// Editor edit = prefs.edit();
-	// edit.remove(key);
-	// edit.commit();
-	// }
 }

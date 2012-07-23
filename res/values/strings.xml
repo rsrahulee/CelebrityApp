@@ -10,11 +10,11 @@
         <item name="android:text">Medium Text</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">8.5pt</item>
+        <item name="android:textSize">9.5pt</item>
     </style>
 
     <string name="facebook">Facebook</string>
-    <string name="aboutdetails">John Christopher "Johnny" Depp II (born June 9, 1963)is an American actor, producer and musician. He has won the Golden Globe Award and Screen Actors Guild award for Best Actor. Depp rose to prominence on the 1980s television series 21 Jump Street, becoming a teen idol. Dissatisfied with that status, Depp turned to film for more challenging roles; he played the title character of Edward Scissorhands (1990) and later found box office success in films such as Sleepy Hollow (1999), Charlie and the Chocolate Factory (2005), Rango (2011) and the Pirates of the Caribbean film series (2003–present). He has collaborated with director and friend Tim Burton in eight films through Dark Shadows (2012).
+    <string name="aboutdetails">Name:  John Christopher (Johnny) Depp \n\nD.O.B:  (born June 9, 1963)\n\nHistory:  John is an American actor, producer and musician. He has won the Golden Globe Award and Screen Actors Guild award for Best Actor. Depp rose to prominence on the 1980s television series 21 Jump Street, becoming a teen idol. Dissatisfied with that status, Depp turned to film for more challenging roles; he played the title character of Edward Scissorhands (1990) and later found box office success in films such as Sleepy Hollow (1999), Charlie and the Chocolate Factory (2005), Rango (2011) and the Pirates of the Caribbean film series (2003–present). He has collaborated with director and friend Tim Burton in eight films through Dark Shadows (2012).
 Depp has gained acclaim for his portrayals of people such as Ed Wood, in Ed Wood, Joseph D. Pistone in Donnie Brasco, Hunter S. Thompson in Fear and Loathing in Las Vegas, George Jung in Blow, and the bank robber John Dillinger in Michael Manns Public Enemies. Films featuring Depp have grossed over $3.1 billion at the United States box office and over $7.6 billion worldwide.He has been nominated for top awards many times, winning the Best Actor Awards from the Golden Globes for Sweeney Todd: The Demon Barber of Fleet Street and from the Screen Actors Guild for Pirates of the Caribbean: The Curse of the Black Pearl. He also has garnered a sex symbol status in American cinema, being twice named as the "Sexiest Man Alive" by People magazine in 2003 and 2009. He has been listed in the 2012 Guinness Book of World Records as the highest paid actor, with $75 million.
     </string>
     <string name="twitter">Twitter</string>
@@ -22,7 +22,7 @@ Depp has gained acclaim for his portrayals of people such as Ed Wood, in Ed Wood
     <string name="welcome">Welcome</string>
     <string name="about">About</string>
     <string name="clicktogetInfo">Click to get the information about Celebrity</string>
-    <string name="celebName">Johney Depp</string>
+    <string name="celebName">Johnny Depp</string>
     <string name="settings">Settings</string>
 
 </resources>

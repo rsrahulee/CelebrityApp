@@ -1,41 +1,39 @@
 package celebrity.com;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 import celebrity.com.adapter.FeedTweetAdapter;
-import celebrity.com.parser.ParseResult;
-import celebrity.com.parser.RestClient;
-import celebrity.com.setting.ShareListAdapter;
+import celebrity.com.constants.Constant;
+import celebrity.com.facebook.Facebook;
+import celebrity.com.task.FeedTask;
+import celebrity.com.task.TweetTask;
+import celebrity.com.twitter.TwitterUtils;
 
 public class WhatIamUptoFragment extends ListFragment {
-
-	WhatIamUptoFragment mBusinessListFragment;
 	MainFragmentActivity context;
 	public static ArrayList<String> feedList;
 	public static ArrayList<String> tweetList;
 	public static ArrayList<String> feed_tweet = new ArrayList<String>();
-	ShareListAdapter sharelist;
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.context = (MainFragmentActivity) this.getActivity();
 		Log.v("celeb", "In onAttach of what I am AUpto Fragment");
 
-		context.showDialog(0);
 	}
 
 	public void onResume() {
@@ -44,21 +42,21 @@ public class WhatIamUptoFragment extends ListFragment {
 		super.onResume();
 
 		if (feedList != null && tweetList != null) {
-			
+
 			setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 
 		} else {
+
 			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
 			String tw_is_on = MainFragmentActivity.appStatus.get("TW_ON");
 
 			if (!(fb_is_on.equals(""))) {
-				if (feedList==null) {
-					feedList = getFeedsUrls();
-					if (feedList!=null) {
-						feed_tweet.addAll(feedList);
-					}else{
-						Toast.makeText(context, "Problem fetching feeds from Facebook", Toast.LENGTH_SHORT).show();
-					}
+				if (feedList == null) {
+
+					context.showDialog(0);
+					new FeedTask(context).execute();
+				} else {
+					setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 				}
 
 			} else {
@@ -66,26 +64,17 @@ public class WhatIamUptoFragment extends ListFragment {
 						Toast.LENGTH_SHORT).show();
 			}
 			if (!(tw_is_on.equals(""))) {
-				if (tweetList==null) {
-					tweetList = getTweetsUrls();
-					if (tweetList!=null) {
-						feed_tweet.addAll(tweetList);
-					}else{
-						Toast.makeText(context, "Problem fetching Tweets from Twitter", Toast.LENGTH_SHORT).show();
-					}
+				if (tweetList == null) {
+					context.showDialog(0);
+					new TweetTask(context).execute();
+				} else {
+					setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 				}
 			} else {
 				Toast.makeText(context, "Twitter is OFF,make it ON",
 						Toast.LENGTH_SHORT).show();
 			}
-
-			// ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-			// android.R.layout.simple_list_item_1, feed_tweet);
-			// setListAdapter(adapter);
-
-			setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 		}
-		context.removeDialog(0);
 	}
 
 	@Override
@@ -98,49 +87,90 @@ public class WhatIamUptoFragment extends ListFragment {
 		return v;
 	}
 
-	public ArrayList<String> getFeedsUrls() {
-		Log.v("getImagesUrls----------------", "getImagesUrls");
+	public void onFeedResultOutput(ArrayList<String> feedResult) {
+		feedList = feedResult;
 
-		RestClient restClient = new RestClient();
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-		nameValuePairs
-				.add(new BasicNameValuePair(
-						"access_token",
-						"AAAEy3j8cizoBAOZAWyo1YgcgS6OcYTZAEBJVaBciDbbYRocn7DPmd2eMNsPVMA2HFUI2XfZBmrFvNnQ6ssV7XZCf6m36kOxBWZAZAKTZAmGlwZDZD"));
-
-		try {
-			String json = restClient.doNewApiCall(
-					"https://graph.facebook.com/JohnnyDeppNewsPage/feed",
-					"GET", nameValuePairs);
-			feedList = ParseResult.INSTANCE.parseFbFeeds(json);
-			Log.i("json::::::::::", String.valueOf(json));
-		} catch (ClientProtocolException e) {
-			Log.i("ClientProtocolException::::::::::", String.valueOf(e));
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.i("IOException::::::::::", String.valueOf(e));
+		if (feedList != null) {
+			feed_tweet.addAll(feedList);
+		} else {
+			Toast.makeText(context, "Problem fetching feeds from Facebook",
+					Toast.LENGTH_SHORT).show();
 		}
-		return feedList;
+		setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+
+		context.removeDialog(0);
 	}
 
-	public ArrayList<String> getTweetsUrls() {
-		RestClient restClient = new RestClient();
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-		nameValuePairs.add(new BasicNameValuePair("q", "JohnnyDeppNews"));
-		nameValuePairs.add(new BasicNameValuePair("result_type", "mixed"));
-		try {
-			String json = restClient.doApiCall("search.json", "GET",
-					nameValuePairs);
-			Log.i("json::::::::::", String.valueOf(json));
+	public void onTweetResultOutput(ArrayList<String> tweetResult) {
+		tweetList = tweetResult;
 
-			tweetList = ParseResult.INSTANCE.parseTweets(json);
-
-		} catch (ClientProtocolException e) {
-			Log.i("ClientProtocolException::::::::::", String.valueOf(e));
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.i("IOException::::::::::", String.valueOf(e));
+		if (tweetList != null) {
+			feed_tweet.addAll(tweetList);
+		} else {
+			Toast.makeText(context, "Problem fetching Tweets from Twitter",
+					Toast.LENGTH_SHORT).show();
 		}
-		return tweetList;
+		setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+
+		context.removeDialog(0);
 	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+
+		String message = feed_tweet.get(position);
+		Log.i("onListItemClick", "onListItemClick");
+
+		if (!message.contains("FB")) {
+			SharedPreferences prefs = PreferenceManager
+					.getDefaultSharedPreferences(context);
+			sendTweetFrom(prefs, message);
+		} else {
+			// send coments
+			updateStatus(message);
+		}
+	}
+
+	public void sendTweetFrom(final SharedPreferences prefs,
+			final String message) {
+		Thread t = new Thread() {
+			public void run() {
+
+				try {
+					TwitterUtils.sendTweet(prefs, message);
+					mTwitterHandler.post(mUpdateTwitterNotification);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		};
+		t.start();
+	}
+
+	private final Handler mTwitterHandler = new Handler();
+
+	final Runnable mUpdateTwitterNotification = new Runnable() {
+		public void run() {
+			Toast.makeText(context, "Tweet sent !", Toast.LENGTH_LONG).show();
+		}
+	};
+
+	public void updateStatus(String message) {
+		Facebook facebook = new Facebook("205134869806");
+		try {
+			Bundle bundle = new Bundle();
+			bundle.putString("message", "Update from my Android Application: "+message);
+			bundle.putString(Facebook.TOKEN, Constant.access_token);
+			String response = facebook.request("me/feed", bundle, "POST");
+			Log.d("UPDATE RESPONSE", "" + response);
+		} catch (MalformedURLException e) {
+			Log.e("MALFORMED URL", "" + e.getMessage());
+		} catch (IOException e) {
+			Log.e("IOEX", "" + e.getMessage());
+		}
+	}
+
 }

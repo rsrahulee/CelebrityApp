@@ -16,13 +16,13 @@
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >           
-           
+            android:orientation="vertical" >
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:background="@color/purple"/>           
+                android:layout_height="wrap_content"
+                android:background="@color/purple" />
 
             <FrameLayout
                 android:id="@android:id/tabcontent"

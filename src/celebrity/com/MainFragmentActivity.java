@@ -2,6 +2,7 @@ package celebrity.com;
 
 import java.util.HashMap;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TabHost;
@@ -25,23 +27,29 @@ public class MainFragmentActivity extends FragmentActivity {
 	public static AppStatus appStatus;
 	public TabHost mTabHost;
 	public TabManager mTabManager;
-//	private ProgressDialog loading;
-//	Handler mhandler;
 	ProgressDialog mProgressDialog;
+	private boolean fromFB;
+	private boolean fromTW;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-//		mhandler = new Handler();
-//		loading = new ProgressDialog(this);
-//		loading.setMessage("Please wait Loading...");
-//		loading.setCancelable(true);
-
 		instanceState = savedInstanceState;
 		appStatus = AppStatus.getInstance(this);
 
+		String already_logged_in = appStatus.get("logged_in");
+
+		if (already_logged_in.equals(null) || already_logged_in.equals("")) {
+
+			fromFB = getIntent().getExtras().getBoolean("fromFB");
+			fromTW = getIntent().getExtras().getBoolean("fromTW");
+
+			if (fromFB || fromTW) {
+				appStatus.save("logged_in", "logged_in");
+			}
+		}
 		setupTabsScreen();
 	}
 
@@ -147,7 +155,9 @@ public class MainFragmentActivity extends FragmentActivity {
 			mTabs.put(tag, info);
 			mTabHost.addTab(tabSpec);
 			// Set tab background
-			mTabHost.getTabWidget().getChildAt((mTabs.size() - 1));
+			mTabHost.getTabWidget().getChildAt((mTabs.size() - 1))
+					.setBackgroundResource(R.drawable.tab_bg);
+			;
 			// Set tab text color
 			TextView tv = (TextView) mTabHost.getTabWidget()
 					.getChildAt((mTabs.size() - 1))
@@ -232,32 +242,13 @@ public class MainFragmentActivity extends FragmentActivity {
 		}
 	}
 
-//	void showLoading(final boolean show, final String title, final String msg) {
-//		mhandler.post(new Runnable() {
-//			@Override
-//			public void run() {
-//				if (show) {
-//					if (loading != null) {
-//						loading.setTitle(title);
-//						loading.setMessage(msg);
-//						loading.show();
-//					}
-//				} else {
-//					loading.cancel();
-//					loading.dismiss();
-//				}
-//			}
-//		});
-//	}
-	
-	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		final ProgressDialog dialog = new ProgressDialog(this);
 		dialog.setTitle("Please Wait...");
 		dialog.setMessage("loading...");
 		dialog.setIndeterminate(true);
-		dialog.setCancelable(true);
+		dialog.setCancelable(false);
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
@@ -267,22 +258,34 @@ public class MainFragmentActivity extends FragmentActivity {
 		mProgressDialog = dialog;
 		return dialog;
 	}
-		
-//	@Override
-//	public Dialog onCreateDialog(int id, Bundle args) {
-//		final ProgressDialog dialog = new ProgressDialog(this);
-//		dialog.setTitle("Please Wait...");
-//		dialog.setMessage("loading...");
-//		dialog.setIndeterminate(true);
-//		dialog.setCancelable(true);
-//		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//			@Override
-//			public void onCancel(DialogInterface dialog) {
-//				Log.i("CHECKINFORGOOD", "user cancelling authentication");
-//
-//			}
-//		});
-//		mProgressDialog = dialog;
-//		return dialog;
-//	}
+
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			ShowMessageBox();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	public void ShowMessageBox() {
+		AlertDialog exitAlert = new AlertDialog.Builder(this).create();
+		exitAlert.setTitle("Exit Application");
+		exitAlert.setMessage("Are you sure you want to leave Celebrity App?");
+
+		exitAlert.setButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				finish();
+			}
+		});
+		exitAlert.setButton2("No", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		exitAlert.show();
+	}
 }
