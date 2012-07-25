@@ -1,14 +1,9 @@
 package celebrity.com;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 import celebrity.com.adapter.FeedTweetAdapter;
-import celebrity.com.constants.Constant;
-import celebrity.com.facebook.Facebook;
+import celebrity.com.dialog.TweetFeedDialog;
 import celebrity.com.task.FeedTask;
 import celebrity.com.task.TweetTask;
-import celebrity.com.twitter.TwitterUtils;
 
 public class WhatIamUptoFragment extends ListFragment {
 	MainFragmentActivity context;
@@ -33,7 +26,6 @@ public class WhatIamUptoFragment extends ListFragment {
 		super.onAttach(activity);
 		this.context = (MainFragmentActivity) this.getActivity();
 		Log.v("celeb", "In onAttach of what I am AUpto Fragment");
-
 	}
 
 	public void onResume() {
@@ -124,53 +116,11 @@ public class WhatIamUptoFragment extends ListFragment {
 		Log.i("onListItemClick", "onListItemClick");
 
 		if (!message.contains("FB")) {
-			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(context);
-			sendTweetFrom(prefs, message);
+			TweetFeedDialog dialog = new TweetFeedDialog(context);
+			dialog.showTweetFeedDialog("Tweet","send tweet");
 		} else {
-			// send coments
-			updateStatus(message);
+			TweetFeedDialog dialog = new TweetFeedDialog(context);
+			dialog.showTweetFeedDialog("Comment","send comments");
 		}
 	}
-
-	public void sendTweetFrom(final SharedPreferences prefs,
-			final String message) {
-		Thread t = new Thread() {
-			public void run() {
-
-				try {
-					TwitterUtils.sendTweet(prefs, message);
-					mTwitterHandler.post(mUpdateTwitterNotification);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-
-		};
-		t.start();
-	}
-
-	private final Handler mTwitterHandler = new Handler();
-
-	final Runnable mUpdateTwitterNotification = new Runnable() {
-		public void run() {
-			Toast.makeText(context, "Tweet sent !", Toast.LENGTH_LONG).show();
-		}
-	};
-
-	public void updateStatus(String message) {
-		Facebook facebook = new Facebook("205134869806");
-		try {
-			Bundle bundle = new Bundle();
-			bundle.putString("message", "Update from my Android Application: "+message);
-			bundle.putString(Facebook.TOKEN, Constant.access_token);
-			String response = facebook.request("me/feed", bundle, "POST");
-			Log.d("UPDATE RESPONSE", "" + response);
-		} catch (MalformedURLException e) {
-			Log.e("MALFORMED URL", "" + e.getMessage());
-		} catch (IOException e) {
-			Log.e("IOEX", "" + e.getMessage());
-		}
-	}
-
 }

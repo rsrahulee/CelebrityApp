@@ -139,7 +139,7 @@ public class ShareListAdapter extends BaseAdapter {
 				Log.v("LoginActivity", "App is not online!");
 				Intent intent = new Intent(context, NoConnectivityScreen.class);
 				context.startActivity(intent);
-				mContext.finish();
+//				mContext.finish();
 			}
 		} else {
 			Toast.makeText(context, "Already Logged in to Facebook",
@@ -164,13 +164,13 @@ public class ShareListAdapter extends BaseAdapter {
 				Intent i = new Intent(context,
 						PrepareRequestTokenActivity.class);
 				context.startActivity(i);
-				mContext.finish();
+//				mContext.finish();
 			}
 		} else {
 			Log.v("ShareListAdapter", "App is not online!");
 			Intent intent = new Intent(context, NoConnectivityScreen.class);
 			context.startActivity(intent);
-			mContext.finish();
+//			mContext.finish();
 		}
 	}
 

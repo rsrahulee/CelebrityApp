@@ -1,11 +1,14 @@
 package celebrity.com.account;
 
 import android.accounts.AccountAuthenticatorActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -49,7 +52,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 					Intent intent = new Intent(LoginActivity.this,
 							NoConnectivityScreen.class);
 					startActivity(intent);
-					finish();
+//					finish();
 				}
 			}
 		});
@@ -57,6 +60,17 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 		btnTwitterLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+//				if (appStatus.isOnline()) {
+//					Intent intent = new Intent(LoginActivity.this,
+//							TwitterShare.class);
+//					startActivity(intent);
+//				} else {
+//					Log.v("LoginActivity", "App is not online!");
+//					Intent intent = new Intent(LoginActivity.this,
+//							NoConnectivityScreen.class);
+//					startActivity(intent);
+//					finish();
+//				}
 				if (appStatus.isOnline()) {
 					if (TwitterUtils.isAuthenticated(prefs)) {
 						Log.i("---------------",
@@ -70,7 +84,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 						Intent i = new Intent(getApplicationContext(),
 								PrepareRequestTokenActivity.class);
 						startActivity(i);
-						finish();
+//						finish();
 					}
 					Log.e("LoginActivity", "Twitter Clicked ");
 				} else {
@@ -78,39 +92,39 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 					Intent intent = new Intent(LoginActivity.this,
 							NoConnectivityScreen.class);
 					startActivity(intent);
-					finish();
+//					finish();
 				}
 			}
 		});
 	}
 
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			ShowMessageBox();
-//			return true;
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
-//
-//	public void ShowMessageBox() {
-//		AlertDialog exitAlert = new AlertDialog.Builder(this).create();
-//		exitAlert.setTitle("Exit Application");
-//		exitAlert.setMessage("Are you sure you want to leave Celebrity App?");
-//
-//		exitAlert.setButton("Yes", new DialogInterface.OnClickListener() {
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//				finish();
-//			}
-//		});
-//		exitAlert.setButton2("No", new DialogInterface.OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				dialog.dismiss();
-//			}
-//		});
-//		exitAlert.show();
-//	}
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			ShowMessageBox();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	public void ShowMessageBox() {
+		AlertDialog exitAlert = new AlertDialog.Builder(this).create();
+		exitAlert.setTitle("Exit Application");
+		exitAlert.setMessage("Are you sure you want to leave Celebrity App?");
+
+		exitAlert.setButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				finish();
+			}
+		});
+		exitAlert.setButton2("No", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		exitAlert.show();
+	}
 }

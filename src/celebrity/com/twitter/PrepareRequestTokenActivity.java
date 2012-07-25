@@ -15,7 +15,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import celebrity.com.MainFragmentActivity;
+import celebrity.com.R;
 
 /**
  * Prepares a OAuthConsumer and OAuthProvider 
@@ -38,6 +40,7 @@ public class PrepareRequestTokenActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.social_share_loading_screen);
     	try {
     		this.consumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
     	    this.provider = new CommonsHttpOAuthProvider(Constants.REQUEST_URL,Constants.ACCESS_URL,Constants.AUTHORIZE_URL);
@@ -117,13 +120,11 @@ public class PrepareRequestTokenActivity extends Activity {
 
 
 		private void executeAfterAccessTokenRetrieval() {
-			//String msg = getIntent().getExtras().getString("tweet_msg");
-			try {
-				TwitterUtils.sendTweet(prefs, "Hi Rahul You tweet successfully");
-//				Toast.makeText(context, "Hi Rahul You tweet successfully", Toast.LENGTH_SHORT).show();
-			} catch (Exception e) {
-				Log.e(TAG, "OAuth - Error sending to Twitter", e);
-			}
+//			try {
+//				TwitterUtils.sendTweet(prefs, "Hi Rahul You tweet successfully");
+//			} catch (Exception e) {
+//				Log.e(TAG, "OAuth - Error sending to Twitter", e);
+//			}
 		}
-	}		
+	}
 }

@@ -19,7 +19,7 @@ import celebrity.com.webservice.RestClient;
 public class CelebImagesTask extends
 		AsyncTask<Double, Integer, ArrayList<String>> {
 
-	ArrayList<String> celebImgLinks;
+	private ArrayList<String> celebImgLinks;
 	MainFragmentActivity mainContext;
 
 	public CelebImagesTask(MainFragmentActivity context) {
@@ -35,9 +35,8 @@ public class CelebImagesTask extends
 
 		nameValuePairs.add(new BasicNameValuePair("limit", "" + 10));
 		try {
-			String json = restClient.doNewApiCall(
-					"https://graph.facebook.com/10150307510509807/photos",
-					"GET", nameValuePairs);
+			String json = restClient.doNewApiCall(Constant.fbImageLink, "GET",
+					nameValuePairs);
 			celebImgLinks = ParseResult.INSTANCE.parseData(json);
 			Log.i("json---------", String.valueOf(json));
 		} catch (ClientProtocolException e) {

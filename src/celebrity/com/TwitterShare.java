@@ -17,17 +17,19 @@ public class TwitterShare extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		setContentView(R.layout.no_connectivity);
+
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		if (TwitterUtils.isAuthenticated(prefs)) {
 			Log.i("---------------", "TwitterUtils.isAuthenticated(prefs)");
-			// sendTweet();
-			Intent intent = new Intent(getApplicationContext(),
-					MainFragmentActivity.class);
+			Intent intent = new Intent(getApplicationContext(), MainFragmentActivity.class);
+			intent.putExtra("fromTW", true);
 			startActivity(intent);
+			finish();
 		} else {
-			Intent i = new Intent(getApplicationContext(),
-					PrepareRequestTokenActivity.class);
+			Intent i = new Intent(getApplicationContext(), PrepareRequestTokenActivity.class);
 			startActivity(i);
 			finish();
 		}

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import celebrity.com.account.LoginActivity;
 import celebrity.com.constants.Constant;
 import celebrity.com.facebook.DialogError;
 import celebrity.com.facebook.Facebook;
@@ -51,6 +52,8 @@ public class FacebookShare extends Activity {
 						public void onCancel() {
 							// TODO Auto-generated method stub
 							Log.i("####checkin", "on cancel");
+							Intent intent = new Intent(FacebookShare.this,LoginActivity.class);
+							startActivity(intent);
 							finish();
 						}
 
@@ -58,6 +61,9 @@ public class FacebookShare extends Activity {
 						public void onError(DialogError e) {
 							// TODO Auto-generated method stub
 							Log.i("####checkin", "on error");
+							Intent intent = new Intent(FacebookShare.this,LoginActivity.class);
+							startActivity(intent);
+							Toast.makeText(FacebookShare.this, "Unable to open the Facebook", Toast.LENGTH_SHORT).show();
 							finish();
 						}
 
@@ -65,6 +71,8 @@ public class FacebookShare extends Activity {
 						public void onFacebookError(FacebookError e) {
 							// TODO Auto-generated method stub
 							Log.i("####checkin", "on FB error");
+							Intent intent = new Intent(FacebookShare.this,LoginActivity.class);
+							startActivity(intent);
 							finish();
 						}
 					});

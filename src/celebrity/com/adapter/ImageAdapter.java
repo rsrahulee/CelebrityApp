@@ -51,15 +51,13 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 			imageView = (ImageView) convertView;
 		}
 
-		Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/" + ""
-				+ position + ".PNG");
+		Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/CelebApp/Images/" + "JohnnyDepp " + position + ".PNG");
 
 		if (bitmapImage != null) {
 			imageView.setImageBitmap(bitmapImage);
 		} else {
 			downloadImage(imageList.get(position), position);
-			Bitmap bitmapImageSD = BitmapFactory.decodeFile("/sdcard/" + ""
-					+ position + ".PNG");
+			Bitmap bitmapImageSD = BitmapFactory.decodeFile("/sdcard/CelebApp/Images/" + "JohnnyDepp " + position + ".PNG");
 			imageView.setImageBitmap(bitmapImageSD);
 		}
 		return imageView;
@@ -102,17 +100,13 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	}
 
 	public void saveImageToSD(Bitmap bitmap, int position) {
-
-		String extStorageDirectory = Environment.getExternalStorageDirectory()
-				.toString();
 		
 		String root = Environment.getExternalStorageDirectory().toString();
-		new File(root + "/mvc/mvc").mkdirs();
-
+		new File(root + "/CelebApp/Images").mkdirs();
 		
 		OutputStream outStream = null;
 
-		File file = new File(extStorageDirectory, "" + position + ".PNG");
+		File file = new File(root + "/CelebApp/Images", "JohnnyDepp " + position + ".PNG");
 		try {
 			outStream = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
