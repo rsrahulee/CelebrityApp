@@ -27,20 +27,19 @@ import celebrity.com.twitter.TwitterUtils;
 public class ShareListAdapter extends BaseAdapter {
 
 	Context context;
-	ArrayList<String> shareItems;
+	private ArrayList<String> shareItems;
 	MainFragmentActivity mContext;
 
-	static int FACEBOOK = 0;
-	static int TWITTER = 1;
+	private static int FACEBOOK = 0;
+	private static int TWITTER = 1;
 	private ToggleButton tb;
-	Handler mhandler;
+	private Handler mhandler;
 
 	public ShareListAdapter() {
 
 	}
 
-	public ShareListAdapter(Context context, ArrayList<String> shareItems,
-			MainFragmentActivity mainContext) {
+	public ShareListAdapter(Context context, ArrayList<String> shareItems, MainFragmentActivity mainContext) {
 		this.context = context;
 		this.shareItems = shareItems;
 		this.mContext = mainContext;
@@ -66,14 +65,12 @@ public class ShareListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.share_list_item, parent, false);
 		TextView tv = (TextView) v.findViewById(R.id.testViewFacebook);
 		tv.setText(shareItems.get(position));
 
-		RelativeLayout rlt = (RelativeLayout) v
-				.findViewById(R.id.relativeLayoutshareItem);
+		RelativeLayout rlt = (RelativeLayout) v.findViewById(R.id.relativeLayoutshareItem);
 		rlt.setId(position);
 
 		tb = (ToggleButton) v.findViewById(R.id.toggleShare);
@@ -139,43 +136,38 @@ public class ShareListAdapter extends BaseAdapter {
 				Log.v("LoginActivity", "App is not online!");
 				Intent intent = new Intent(context, NoConnectivityScreen.class);
 				context.startActivity(intent);
-//				mContext.finish();
+				// mContext.finish();
 			}
 		} else {
-			Toast.makeText(context, "Already Logged in to Facebook",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Already Logged in to Facebook", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	// on TwitterStatusChanged store status to preferences
 	public void onTwitterClick(View v) {
 		if (MainFragmentActivity.appStatus.isOnline()) {
-			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(context);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 			Log.e("onFacebookClick", "Facebook Clicked ");
 
 			if (TwitterUtils.isAuthenticated(prefs)) {
 
 				Log.i("---------------", "TwitterUtils.isAuthenticated(prefs)");
-				Toast.makeText(context, "Already Logged in to Twitter",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "Already Logged in to Twitter", Toast.LENGTH_SHORT).show();
 			} else {
 
-				Intent i = new Intent(context,
-						PrepareRequestTokenActivity.class);
+				Intent i = new Intent(context, PrepareRequestTokenActivity.class);
 				context.startActivity(i);
-//				mContext.finish();
+				// mContext.finish();
 			}
 		} else {
 			Log.v("ShareListAdapter", "App is not online!");
 			Intent intent = new Intent(context, NoConnectivityScreen.class);
 			context.startActivity(intent);
-//			mContext.finish();
+			// mContext.finish();
 		}
 	}
 
-	private boolean CheckAndchangeStatus(int isFacebookOrTwitter,
-			boolean bIsChecked) {
+	private boolean CheckAndchangeStatus(int isFacebookOrTwitter, boolean bIsChecked) {
 		boolean bReturnStatus = false;
 		if (isFacebookOrTwitter == FACEBOOK) {
 			if (bIsChecked) {

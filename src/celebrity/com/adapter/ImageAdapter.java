@@ -30,7 +30,7 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	public ImageAdapter(Context context, ArrayList<String> arrayList) {
 		super();
 		ImageAdapter.context = context;
-		this.imageList = arrayList;
+		imageList = arrayList;		
 	}
 
 	@Override
@@ -56,9 +56,12 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 		if (bitmapImage != null) {
 			imageView.setImageBitmap(bitmapImage);
 		} else {
-			downloadImage(imageList.get(position), position);
-			Bitmap bitmapImageSD = BitmapFactory.decodeFile("/sdcard/CelebApp/Images/" + "JohnnyDepp " + position + ".PNG");
-			imageView.setImageBitmap(bitmapImageSD);
+			if (imageList != null) {
+				downloadImage(imageList.get(position), position);
+				Bitmap bitmapImageSD = BitmapFactory.decodeFile("/sdcard/CelebApp/Images/" + "JohnnyDepp " + position
+						+ ".PNG");
+				imageView.setImageBitmap(bitmapImageSD);
+			}
 		}
 		return imageView;
 	}
@@ -72,8 +75,7 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 
 			myFileUrl = new URL(fileUrl);
 
-			HttpURLConnection conn = (HttpURLConnection) myFileUrl
-					.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
 			conn.setDoInput(true);
 			conn.connect();
 			InputStream is = conn.getInputStream();
@@ -90,7 +92,11 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return imageList.size();
+		if(imageList!=null){
+			return imageList.size();
+		}else{
+			return 10;
+		}		
 	}
 
 	@Override
@@ -100,10 +106,10 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	}
 
 	public void saveImageToSD(Bitmap bitmap, int position) {
-		
+
 		String root = Environment.getExternalStorageDirectory().toString();
 		new File(root + "/CelebApp/Images").mkdirs();
-		
+
 		OutputStream outStream = null;
 
 		File file = new File(root + "/CelebApp/Images", "JohnnyDepp " + position + ".PNG");
@@ -113,8 +119,7 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 			outStream.flush();
 			outStream.close();
 
-			Toast.makeText(context, "Saved" + "" + position + ".PNG",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Saved" + "" + position + ".PNG", Toast.LENGTH_LONG).show();
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

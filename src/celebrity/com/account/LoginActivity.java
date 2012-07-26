@@ -37,10 +37,14 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
 		btnFacebookLogin = (Button) findViewById(R.id.facebookLogin);
 		btnTwitterLogin = (Button) findViewById(R.id.twitterLogin);
+		
+		btnFacebookLogin.setClickable(true);
+		btnTwitterLogin.setClickable(true);
 
 		btnFacebookLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				btnFacebookLogin.setClickable(false);
 				if (appStatus.isOnline()) {
 					Log.e("LoginActivity", "Facebook Clicked ");
 					Intent intent_ShareFB = new Intent(LoginActivity.this,
@@ -60,17 +64,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 		btnTwitterLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-//				if (appStatus.isOnline()) {
-//					Intent intent = new Intent(LoginActivity.this,
-//							TwitterShare.class);
-//					startActivity(intent);
-//				} else {
-//					Log.v("LoginActivity", "App is not online!");
-//					Intent intent = new Intent(LoginActivity.this,
-//							NoConnectivityScreen.class);
-//					startActivity(intent);
-//					finish();
-//				}
+				btnTwitterLogin.setClickable(false);
+				
 				if (appStatus.isOnline()) {
 					if (TwitterUtils.isAuthenticated(prefs)) {
 						Log.i("---------------",

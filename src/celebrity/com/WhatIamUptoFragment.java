@@ -22,6 +22,9 @@ public class WhatIamUptoFragment extends ListFragment {
 	public static ArrayList<String> tweetList;
 	public static ArrayList<String> feed_tweet = new ArrayList<String>();
 
+	private String fb_is_on;
+	private String tw_is_on;
+
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.context = (MainFragmentActivity) this.getActivity();
@@ -29,7 +32,7 @@ public class WhatIamUptoFragment extends ListFragment {
 	}
 
 	public void onResume() {
-		Log.v("celeb", "In onAttach of what I am AUpto Fragment");
+		Log.v("celeb", "In onResume of what I am AUpto Fragment");
 
 		super.onResume();
 
@@ -39,39 +42,47 @@ public class WhatIamUptoFragment extends ListFragment {
 
 		} else {
 
-			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
-			String tw_is_on = MainFragmentActivity.appStatus.get("TW_ON");
+			fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
+			tw_is_on = MainFragmentActivity.appStatus.get("TW_ON");
 
-			if (!(fb_is_on.equals(""))) {
-				if (feedList == null) {
+			if (!fb_is_on.equals(""))
+				fetchFbData();
 
-					context.showDialog(0);
-					new FeedTask(context).execute();
-				} else {
-					setListAdapter(new FeedTweetAdapter(context, feed_tweet));
-				}
+			if (!tw_is_on.equals(""))
+				fetchTwData();
+		}
+	}
 
+	public void fetchFbData() {
+		if (!(fb_is_on.equals(""))) {
+			
+			if (feedList == null) {
+				context.showDialog(0);
+				new FeedTask(context).execute();
 			} else {
-				Toast.makeText(context, "Facebook is OFF,make it ON",
-						Toast.LENGTH_SHORT).show();
+				setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 			}
-			if (!(tw_is_on.equals(""))) {
-				if (tweetList == null) {
-					context.showDialog(0);
-					new TweetTask(context).execute();
-				} else {
-					setListAdapter(new FeedTweetAdapter(context, feed_tweet));
-				}
+
+		} else {
+			Toast.makeText(context, "Facebook is OFF,make it ON", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	public void fetchTwData() {
+		if (!(tw_is_on.equals(""))) {
+			if (tweetList == null) {
+				context.showDialog(0);
+				new TweetTask(context).execute();
 			} else {
-				Toast.makeText(context, "Twitter is OFF,make it ON",
-						Toast.LENGTH_SHORT).show();
+				setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 			}
+		} else {
+			Toast.makeText(context, "Twitter is OFF,make it ON", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = null;
 
 		v = inflater.inflate(R.layout.whatamupto_fragment, container, false);
@@ -85,10 +96,11 @@ public class WhatIamUptoFragment extends ListFragment {
 		if (feedList != null) {
 			feed_tweet.addAll(feedList);
 		} else {
-			Toast.makeText(context, "Problem fetching feeds from Facebook",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Problem fetching feeds from Facebook", Toast.LENGTH_SHORT).show();
 		}
 		setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+
+		// fetchTwData();
 
 		context.removeDialog(0);
 	}
@@ -99,10 +111,11 @@ public class WhatIamUptoFragment extends ListFragment {
 		if (tweetList != null) {
 			feed_tweet.addAll(tweetList);
 		} else {
-			Toast.makeText(context, "Problem fetching Tweets from Twitter",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Problem fetching Tweets from Twitter", Toast.LENGTH_SHORT).show();
 		}
 		setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+
+		// fetchFbData();
 
 		context.removeDialog(0);
 	}
@@ -117,10 +130,10 @@ public class WhatIamUptoFragment extends ListFragment {
 
 		if (!message.contains("FB")) {
 			TweetFeedDialog dialog = new TweetFeedDialog(context);
-			dialog.showTweetFeedDialog("Tweet","send tweet");
+			dialog.showTweetFeedDialog("Tweet", "send tweet");
 		} else {
 			TweetFeedDialog dialog = new TweetFeedDialog(context);
-			dialog.showTweetFeedDialog("Comment","send comments");
+			dialog.showTweetFeedDialog("Comment", "send comments");
 		}
 	}
 }
