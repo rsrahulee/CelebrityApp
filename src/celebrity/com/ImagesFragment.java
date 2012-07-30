@@ -65,15 +65,26 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 			if (!(fb_is_on.equals(""))) {
 				context.showDialog(0);
 				File folder = new File("/sdcard/CelebApp/Images/");
-				allFiles = folder.list();
-				if (allFiles != null) {
-					gridImages.setAdapter(new ImageAdapter(context, imageList));
-					context.removeDialog(0);
+				if (folder.exists()) {
+					allFiles = folder.list();
+					if (allFiles != null) {
+						gridImages.setAdapter(new ImageAdapter(context, imageList));
+						context.removeDialog(0);
+					}
 				} else {
 					new CelebImagesTask(context).execute();
 				}
 			} else {
-				Toast.makeText(context, "Facebook is OFF,make it ON", Toast.LENGTH_SHORT).show();
+				
+				File folder = new File("/sdcard/CelebApp/Images/");
+				if (folder.exists()) {
+					allFiles = folder.list();
+					if (allFiles != null) {
+						gridImages.setAdapter(new ImageAdapter(context, imageList));
+					}
+				}else{
+					Toast.makeText(context, "Sorry! No Images found", Toast.LENGTH_SHORT).show();
+				}				
 			}
 		}
 		return v;
@@ -82,11 +93,13 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 	public void onResume() {
 		Log.v("onResume----------------", "onResume");
 		super.onResume();
-
-		for (int i = 0; i < allFiles.length; i++) {
-			Log.d("all file path" + i, allFiles[i] + allFiles.length);
+		
+		if(allFiles!=null){
+			for (int i = 0; i < allFiles.length; i++) {
+				Log.d("all file path" + i, allFiles[i] + allFiles.length);
+			}
+			SCAN_PATH = Environment.getExternalStorageDirectory().toString() + "/CelebApp/Images/" + allFiles[0];
 		}
-		SCAN_PATH = Environment.getExternalStorageDirectory().toString() + "/CelebApp/Images/" + allFiles[0];
 	}
 
 	public void onResultOutput(ArrayList<String> result) {

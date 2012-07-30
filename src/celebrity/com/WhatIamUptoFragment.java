@@ -45,17 +45,31 @@ public class WhatIamUptoFragment extends ListFragment {
 			fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
 			tw_is_on = MainFragmentActivity.appStatus.get("TW_ON");
 
-			if (!fb_is_on.equals(""))
+			if (!fb_is_on.equals("")) {
 				fetchFbData();
+			} else {
+				if (feedList != null) {
+					setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+				} else {
+					Toast.makeText(context, "Facebook is OFF,Please ON it to get feeds", Toast.LENGTH_SHORT).show();
+				}
+			}
 
-			if (!tw_is_on.equals(""))
+			if (!tw_is_on.equals("")) {
 				fetchTwData();
+			} else {
+				if (tweetList != null) {
+					setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+				} else {
+					Toast.makeText(context, "Twitter is OFF,Please ON it to get tweets", Toast.LENGTH_SHORT).show();
+				}
+			}
 		}
 	}
 
 	public void fetchFbData() {
 		if (!(fb_is_on.equals(""))) {
-			
+
 			if (feedList == null) {
 				context.showDialog(0);
 				new FeedTask(context).execute();
@@ -63,9 +77,15 @@ public class WhatIamUptoFragment extends ListFragment {
 				setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 			}
 
-		} else {
-			Toast.makeText(context, "Facebook is OFF,make it ON", Toast.LENGTH_SHORT).show();
 		}
+		// else {
+		// if (feedList != null) {
+		// setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+		// } else {
+		// Toast.makeText(context, "Facebook is OFF,Please ON it to get feeds",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// }
 	}
 
 	public void fetchTwData() {
@@ -76,9 +96,15 @@ public class WhatIamUptoFragment extends ListFragment {
 			} else {
 				setListAdapter(new FeedTweetAdapter(context, feed_tweet));
 			}
-		} else {
-			Toast.makeText(context, "Twitter is OFF,make it ON", Toast.LENGTH_SHORT).show();
 		}
+		// else {
+		// if (tweetList != null) {
+		// setListAdapter(new FeedTweetAdapter(context, feed_tweet));
+		// } else {
+		// Toast.makeText(context, "Twitter is OFF,Please ON it to get tweets",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// }
 	}
 
 	@Override

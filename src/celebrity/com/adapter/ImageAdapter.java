@@ -119,7 +119,7 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 			outStream.flush();
 			outStream.close();
 
-			Toast.makeText(context, "Saved" + "" + position + ".PNG", Toast.LENGTH_LONG).show();
+			//Toast.makeText(context, "Saved" + "" + position + ".PNG", Toast.LENGTH_LONG).show();
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
