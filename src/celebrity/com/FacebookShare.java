@@ -33,16 +33,16 @@ public class FacebookShare extends Activity {
 
 		if (!facebook.isSessionValid()) {
 
-			facebook.authorize(this, new String[] { "publish_stream",
-					"read_stream", "offline_access", "user_photos", "email" },
-					Facebook.FORCE_DIALOG_AUTH, new DialogListener() {
+			facebook.authorize(this, new String[] { "publish_stream", "manage_pages", "friends_events", "read_stream",
+					"offline_access", "user_photos", "email", "rsvp_event" }, Facebook.FORCE_DIALOG_AUTH,
+					new DialogListener() {
 						@Override
 						public void onComplete(Bundle values) {
 							appStatus.saveSharedStringValue(appStatus.FACEBOOK_TOKEN, facebook.getAccessToken());
+							Log.i("AUTH_TOKEN-----------", facebook.getAccessToken());
 
 							// getFBId();
-							Intent intent = new Intent(FacebookShare.this,
-									MainFragmentActivity.class);
+							Intent intent = new Intent(FacebookShare.this, MainFragmentActivity.class);
 							intent.putExtra("fromFB", true);
 							startActivity(intent);
 							finish();
@@ -52,7 +52,7 @@ public class FacebookShare extends Activity {
 						public void onCancel() {
 							// TODO Auto-generated method stub
 							Log.i("####checkin", "on cancel");
-							Intent intent = new Intent(FacebookShare.this,LoginActivity.class);
+							Intent intent = new Intent(FacebookShare.this, LoginActivity.class);
 							startActivity(intent);
 							finish();
 						}
@@ -61,9 +61,10 @@ public class FacebookShare extends Activity {
 						public void onError(DialogError e) {
 							// TODO Auto-generated method stub
 							Log.i("####checkin", "on error");
-							Intent intent = new Intent(FacebookShare.this,LoginActivity.class);
+							Intent intent = new Intent(FacebookShare.this, LoginActivity.class);
 							startActivity(intent);
-							Toast.makeText(FacebookShare.this, "Unable to open the Facebook", Toast.LENGTH_SHORT).show();
+							Toast.makeText(FacebookShare.this, "Unable to open the Facebook", Toast.LENGTH_SHORT)
+									.show();
 							finish();
 						}
 
@@ -71,15 +72,14 @@ public class FacebookShare extends Activity {
 						public void onFacebookError(FacebookError e) {
 							// TODO Auto-generated method stub
 							Log.i("####checkin", "on FB error");
-							Intent intent = new Intent(FacebookShare.this,LoginActivity.class);
+							Intent intent = new Intent(FacebookShare.this, LoginActivity.class);
 							startActivity(intent);
 							finish();
 						}
 					});
 		} else {
 			// getFBId();
-			Intent intent = new Intent(FacebookShare.this,
-					MainFragmentActivity.class);
+			Intent intent = new Intent(FacebookShare.this, MainFragmentActivity.class);
 			startActivity(intent);
 			finish();
 		}

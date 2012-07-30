@@ -10,6 +10,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import celebrity.com.CopyOfWhatIamUptoFragment;
 import celebrity.com.MainFragmentActivity;
 import celebrity.com.WhatIamUptoFragment;
 import celebrity.com.constants.Constant;
@@ -40,8 +41,10 @@ public class FeedTask extends AsyncTask<Double, Integer, ArrayList<String>> {
 			feedList = ParseResult.INSTANCE.parseFbFeeds(json);
 			Log.i("json--------------", String.valueOf(json));
 		} catch (ClientProtocolException e) {
+			mainContext.removeDialog(0);
 			Log.i("ClientProtocolException-------------", String.valueOf(e));
 		} catch (IOException e) {
+			mainContext.removeDialog(0);
 			e.printStackTrace();
 			Log.i("IOException--------------", String.valueOf(e));
 		}
@@ -50,8 +53,11 @@ public class FeedTask extends AsyncTask<Double, Integer, ArrayList<String>> {
 
 	protected void onPostExecute(ArrayList<String> result) {
 
-		WhatIamUptoFragment uptoFragment = (WhatIamUptoFragment) mainContext
-				.getSupportFragmentManager().findFragmentByTag("upto_tab");
+//		WhatIamUptoFragment uptoFragment = (WhatIamUptoFragment) mainContext
+//				.getSupportFragmentManager().findFragmentByTag("upto_tab");
+		
+		CopyOfWhatIamUptoFragment uptoFragment = (CopyOfWhatIamUptoFragment) mainContext
+		.getSupportFragmentManager().findFragmentByTag("upto_tab");
 
 		if (uptoFragment != null) {
 			if (uptoFragment.getView() != null) {

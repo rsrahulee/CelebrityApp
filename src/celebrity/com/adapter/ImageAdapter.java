@@ -20,7 +20,6 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.Toast;
 
 public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	private static Context context;
@@ -95,7 +94,7 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 		if(imageList!=null){
 			return imageList.size();
 		}else{
-			return 10;
+			return 35;
 		}		
 	}
 

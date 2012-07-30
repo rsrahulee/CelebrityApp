@@ -77,7 +77,7 @@ public class MainFragmentActivity extends FragmentActivity {
 		mTabManager.addTab(
 				mTabHost.newTabSpec("upto_tab").setIndicator("What I am Upto",
 						res.getDrawable(R.drawable.tabbarsettings)),
-				WhatIamUptoFragment.class, null);
+				CopyOfWhatIamUptoFragment.class, null);
 		mTabManager.addTab(
 				mTabHost.newTabSpec("setting_tab").setIndicator("Settings",
 						res.getDrawable(R.drawable.tabbarsettings)),
@@ -248,7 +248,7 @@ public class MainFragmentActivity extends FragmentActivity {
 		dialog.setTitle("Please Wait...");
 		dialog.setMessage("loading...");
 		dialog.setIndeterminate(true);
-		dialog.setCancelable(false);
+		dialog.setCancelable(true);
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {

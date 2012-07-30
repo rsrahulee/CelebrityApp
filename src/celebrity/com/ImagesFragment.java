@@ -19,6 +19,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 import celebrity.com.adapter.ImageAdapter;
+import celebrity.com.constants.Constant;
+import celebrity.com.model.AlbumModel;
+import celebrity.com.task.CelebAlbumsTask;
 import celebrity.com.task.CelebImagesTask;
 
 public class ImagesFragment extends Fragment implements MediaScannerConnectionClient {
@@ -26,10 +29,12 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 	private GridView gridImages;
 	public static ArrayList<String> imageList;
 
+	public static ArrayList<AlbumModel> imageAlbums;
+
 	private String[] allFiles;
 	private String SCAN_PATH;
 	private static final String FILE_TYPE = "*/*";
-	private MediaScannerConnection conn;
+	private MediaScannerConnection conn;	
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -42,6 +47,9 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 		Log.v("onCreate----------------", "onCreate");
 
 		super.onCreate(savedInstanceState);
+		
+		context.showDialog(0);
+		new CelebAlbumsTask(context).execute();
 	}
 
 	@Override
@@ -57,44 +65,46 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 
 		onImageClick();
 
-		if (imageList != null) {
-			gridImages.setAdapter(new ImageAdapter(context, imageList));
-		} else {
-
-			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
-			if (!(fb_is_on.equals(""))) {
-				context.showDialog(0);
-				File folder = new File("/sdcard/CelebApp/Images/");
-				if (folder.exists()) {
-					allFiles = folder.list();
-					if (allFiles != null) {
-						gridImages.setAdapter(new ImageAdapter(context, imageList));
-						context.removeDialog(0);
-					}
-				} else {
-					new CelebImagesTask(context).execute();
-				}
-			} else {
-				
-				File folder = new File("/sdcard/CelebApp/Images/");
-				if (folder.exists()) {
-					allFiles = folder.list();
-					if (allFiles != null) {
-						gridImages.setAdapter(new ImageAdapter(context, imageList));
-					}
-				}else{
-					Toast.makeText(context, "Sorry! No Images found", Toast.LENGTH_SHORT).show();
-				}				
-			}
-		}
+//		if (imageList != null) {
+//			gridImages.setAdapter(new ImageAdapter(context, imageList));
+//		} else {
+//
+//			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
+//			if (!(fb_is_on.equals(""))) {
+//				context.showDialog(0);
+//				File folder = new File("/sdcard/CelebApp/Images/");
+//				if (folder.exists()) {
+//					allFiles = folder.list();
+//					if (allFiles != null && (Constant.images_count.equalsIgnoreCase(String.valueOf(allFiles.length)))) {
+//						gridImages.setAdapter(new ImageAdapter(context, imageList));
+//						context.removeDialog(0);
+//					}else{
+//						new CelebImagesTask(context).execute();
+//					}
+//				} else {
+//					new CelebImagesTask(context).execute();
+//				}
+//			} else {
+//
+//				File folder = new File("/sdcard/CelebApp/Images/");
+//				if (folder.exists()) {
+//					allFiles = folder.list();
+//					if (allFiles != null) {
+//						gridImages.setAdapter(new ImageAdapter(context, imageList));
+//					}
+//				} else {
+//					Toast.makeText(context, "Sorry! No Images found", Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		}
 		return v;
 	}
 
 	public void onResume() {
 		Log.v("onResume----------------", "onResume");
 		super.onResume();
-		
-		if(allFiles!=null){
+
+		if (allFiles != null) {
 			for (int i = 0; i < allFiles.length; i++) {
 				Log.d("all file path" + i, allFiles[i] + allFiles.length);
 			}
@@ -111,6 +121,34 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 			gridImages.setAdapter(new ImageAdapter(context, imageList));
 		} else {
 			Toast.makeText(context, "Error loading images", Toast.LENGTH_SHORT).show();
+		}
+
+		onImageClick();
+
+		context.removeDialog(0);
+	}
+
+	public void onAlbumsOutput(ArrayList<AlbumModel> result) {
+
+		if (result != null) {
+			imageAlbums = result;
+			
+			for(int i=0;i<imageAlbums.size();i++){
+				AlbumModel model = imageAlbums.get(i);
+				String albumName = model.getName();
+				
+				if(albumName.equalsIgnoreCase("Dark Shadows")){
+					
+					Constant.images_count = model.getCount();
+					
+					break;
+				}
+			}
+			LoadImages();
+			
+			Log.v("onResultOutput----------------", "onResultOutput");
+		} else {
+			Toast.makeText(context, "Error loading albums", Toast.LENGTH_SHORT).show();
 		}
 
 		onImageClick();
@@ -156,5 +194,41 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 			conn.disconnect();
 			conn = null;
 		}
+	}
+	
+	public void LoadImages(){
+		if (imageList != null) {
+			gridImages.setAdapter(new ImageAdapter(context, imageList));
+		} else {
+
+			String fb_is_on = MainFragmentActivity.appStatus.get("FB_ON");
+			if (!(fb_is_on.equals(""))) {
+				context.showDialog(0);
+				File folder = new File("/sdcard/CelebApp/Images/");
+				if (folder.exists()) {
+					allFiles = folder.list();
+					if (allFiles != null && (Constant.images_count.equalsIgnoreCase(String.valueOf(allFiles.length)))) {
+						gridImages.setAdapter(new ImageAdapter(context, imageList));
+						context.removeDialog(0);
+					}else{
+						new CelebImagesTask(context).execute();
+					}
+				} else {
+					new CelebImagesTask(context).execute();
+				}
+			} else {
+
+				File folder = new File("/sdcard/CelebApp/Images/");
+				if (folder.exists()) {
+					allFiles = folder.list();
+					if (allFiles != null) {
+						gridImages.setAdapter(new ImageAdapter(context, imageList));
+					}
+				} else {
+					Toast.makeText(context, "Sorry! No Images found", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+		onImageClick();
 	}
 }

@@ -13,31 +13,27 @@ import android.util.Log;
 import celebrity.com.ImagesFragment;
 import celebrity.com.MainFragmentActivity;
 import celebrity.com.constants.Constant;
+import celebrity.com.model.AlbumModel;
 import celebrity.com.parser.ParseResult;
 import celebrity.com.webservice.RestClient;
 
-public class CelebImagesTask extends
-		AsyncTask<Double, Integer, ArrayList<String>> {
+public class CelebAlbumsTask extends AsyncTask<Double, Integer, ArrayList<AlbumModel>> {
 
-	private ArrayList<String> celebImgLinks;
+	private ArrayList<AlbumModel> celebAlbumsLinks;
 	MainFragmentActivity mainContext;
 
-	public CelebImagesTask(MainFragmentActivity context) {
+	public CelebAlbumsTask(MainFragmentActivity context) {
 		mainContext = context;
 	}
 
-	protected ArrayList<String> doInBackground(Double... create_params) {
+	protected ArrayList<AlbumModel> doInBackground(Double... create_params) {
 
 		RestClient restClient = new RestClient();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-		nameValuePairs.add(new BasicNameValuePair("access_token",
-				Constant.access_token));
-
-		nameValuePairs.add(new BasicNameValuePair("limit",Constant.images_count));
+		nameValuePairs.add(new BasicNameValuePair("access_token", Constant.access_token));
 		try {
-			String json = restClient.doNewApiCall(Constant.fbImageLink, "GET",
-					nameValuePairs);
-			celebImgLinks = ParseResult.INSTANCE.parseData(json);
+			String json = restClient.doNewApiCall(Constant.fbImageLink, "GET", nameValuePairs);
+			celebAlbumsLinks = ParseResult.INSTANCE.parseAlbums(json);
 			Log.i("json---------", String.valueOf(json));
 		} catch (ClientProtocolException e) {
 			Log.i("ClientProtocolException----------", String.valueOf(e));
@@ -46,17 +42,17 @@ public class CelebImagesTask extends
 			Log.i("IOException---------------", String.valueOf(e));
 		}
 
-		return celebImgLinks;
+		return celebAlbumsLinks;
 	}
 
-	protected void onPostExecute(ArrayList<String> result) {
+	protected void onPostExecute(ArrayList<AlbumModel> result) {
 
-		ImagesFragment imageFragment = (ImagesFragment) mainContext
-				.getSupportFragmentManager().findFragmentByTag("image_tab");
+		ImagesFragment imageFragment = (ImagesFragment) mainContext.getSupportFragmentManager().findFragmentByTag(
+				"image_tab");
 
 		if (imageFragment != null) {
 			if (imageFragment.getView() != null) {
-				imageFragment.onResultOutput(result);
+				imageFragment.onAlbumsOutput(result);
 			}
 		}
 	}
