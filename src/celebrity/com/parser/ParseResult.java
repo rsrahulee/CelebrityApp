@@ -2,6 +2,8 @@ package celebrity.com.parser;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import twitter4j.internal.org.json.JSONArray;
 import twitter4j.internal.org.json.JSONObject;
 import celebrity.com.model.AlbumModel;
@@ -100,13 +102,17 @@ public class ParseResult {
 			for (int i = 0; i < mJsonArray.length(); i++) {
 				AlbumModel model = new AlbumModel();
 				model.setName(mJsonArray.getJSONObject(i).getString("name"));
+				Log.i("album name---------", mJsonArray.getJSONObject(i).getString("name"));
 				model.setCount(mJsonArray.getJSONObject(i).getString("count"));
+				Log.i("album count---------", mJsonArray.getJSONObject(i).getString("count"));
 				albumsList.add(model);
+				Log.i("album list model---------",""+ model);
 			}
 
 		} catch (Exception e) {
-
+			Log.i("exception---------","exception in Album Parse"+ e);
 		}
+		Log.i("album list---------",""+ albumsList);
 		return albumsList;
 	}
 }

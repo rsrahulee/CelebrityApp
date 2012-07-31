@@ -32,7 +32,7 @@ public class CelebAlbumsTask extends AsyncTask<Double, Integer, ArrayList<AlbumM
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
 		nameValuePairs.add(new BasicNameValuePair("access_token", Constant.access_token));
 		try {
-			String json = restClient.doNewApiCall(Constant.fbImageLink, "GET", nameValuePairs);
+			String json = restClient.doNewApiCall(Constant.fbAlbumLink, "GET", nameValuePairs);
 			celebAlbumsLinks = ParseResult.INSTANCE.parseAlbums(json);
 			Log.i("json---------", String.valueOf(json));
 		} catch (ClientProtocolException e) {

@@ -21,7 +21,7 @@ public class FbWebPage extends Activity {
 
 		String fb_or_tw = getIntent().getExtras().getString("like FB_TW");
 		if (fb_or_tw.equals("like TW")) {
-			url = "http://twitter.com/JohnnyDeppNews";
+			url = "https://mobile.twitter.com/JohnnyDeppNews";
 		} else {			
 			url = "http://www.facebook.com/JohnnyDeppNewsPage";
 		}
@@ -34,6 +34,8 @@ public class FbWebPage extends Activity {
 				FbWebPage.this.setProgress(progress * 100);
 			}
 		});
+		
+		webView.getSettings().setDomStorageEnabled(true);
 		webView.loadUrl(url);
 
 		webView.setWebViewClient(new AuthClient());

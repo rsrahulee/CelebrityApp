@@ -103,13 +103,15 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 	public void onResume() {
 		Log.v("onResume----------------", "onResume");
 		super.onResume();
+		
+//		onImageClick();
 
-		if (allFiles != null) {
-			for (int i = 0; i < allFiles.length; i++) {
-				Log.d("all file path" + i, allFiles[i] + allFiles.length);
-			}
-			SCAN_PATH = Environment.getExternalStorageDirectory().toString() + "/CelebApp/Images/" + allFiles[0];
-		}
+//		if (allFiles != null) {
+//			for (int i = 0; i < allFiles.length; i++) {
+//				Log.d("all file path" + i, allFiles[i] + allFiles.length);
+//			}
+//			SCAN_PATH = Environment.getExternalStorageDirectory().toString() + "/CelebApp/Images/" + allFiles[0];
+//		}
 	}
 
 	public void onResultOutput(ArrayList<String> result) {
@@ -178,6 +180,14 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 	@Override
 	public void onMediaScannerConnected() {
 		// TODO Auto-generated method stub
+		
+		if (allFiles != null) {
+			for (int i = 0; i < allFiles.length; i++) {
+				Log.d("all file path" + i, allFiles[i] + allFiles.length);
+			}
+			SCAN_PATH = Environment.getExternalStorageDirectory().toString() + "/CelebApp/Images/" + allFiles[0];
+		}
+		
 		conn.scanFile(SCAN_PATH, FILE_TYPE);
 	}
 
@@ -225,7 +235,7 @@ public class ImagesFragment extends Fragment implements MediaScannerConnectionCl
 						gridImages.setAdapter(new ImageAdapter(context, imageList));
 					}
 				} else {
-					Toast.makeText(context, "Sorry! No Images found", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "Sorry! No Images found,Please make FB on", Toast.LENGTH_SHORT).show();
 				}
 			}
 		}

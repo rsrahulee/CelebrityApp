@@ -14,22 +14,34 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import celebrity.com.MainFragmentActivity;
+import celebrity.com.R;
+import celebrity.com.constants.Constant;
+import celebrity.com.helper.ImageLoader;
 
 public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	private static Context context;
+	private MainFragmentActivity main_context;
 
 	private ArrayList<String> imageList;
+
+	private static LayoutInflater inflater = null;
+	public ImageLoader imageLoader;
 
 	public ImageAdapter(Context context, ArrayList<String> arrayList) {
 		super();
 		ImageAdapter.context = context;
-		imageList = arrayList;		
+		imageList = arrayList;
+
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		imageLoader = new ImageLoader(context.getApplicationContext());
 	}
 
 	@Override
@@ -39,16 +51,23 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView imageView;
+		View vi = convertView;
+		ImageView imageView = new ImageView(context);
 		if (convertView == null) {
-			imageView = new ImageView(context);
-			imageView.setLayoutParams(new GridView.LayoutParams(110, 110));
+			vi = inflater.inflate(R.layout.item, null);
+
+			imageView = (ImageView) vi.findViewById(R.id.image);
+			// imageView = new ImageView(context);
+//			imageView.setLayoutParams(new GridView.LayoutParams(110, 110));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setPadding(8, 8, 8, 8);
 
-		} else {
-			imageView = (ImageView) convertView;
-		}
+		} 
+//		else {
+//			imageView = (ImageView) convertView;
+//		}
+
+//		imageLoader.DisplayImage(imageList.get(position), imageView);
 
 		Bitmap bitmapImage = BitmapFactory.decodeFile("/sdcard/CelebApp/Images/" + "JohnnyDepp " + position + ".PNG");
 
@@ -62,7 +81,9 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 				imageView.setImageBitmap(bitmapImageSD);
 			}
 		}
-		return imageView;
+		
+		
+		return vi;
 	}
 
 	private void downloadImage(String fileUrl, int position) {
@@ -91,11 +112,12 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		if(imageList!=null){
+		if (imageList != null) {
 			return imageList.size();
-		}else{
-			return 35;
-		}		
+		} else {
+			int image_count = Integer.valueOf(Constant.images_count);
+			return image_count;
+		}
 	}
 
 	@Override
@@ -118,7 +140,8 @@ public class ImageAdapter extends BaseAdapter implements ListAdapter {
 			outStream.flush();
 			outStream.close();
 
-			//Toast.makeText(context, "Saved" + "" + position + ".PNG", Toast.LENGTH_LONG).show();
+			// Toast.makeText(context, "Saved" + "" + position + ".PNG",
+			// Toast.LENGTH_LONG).show();
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
